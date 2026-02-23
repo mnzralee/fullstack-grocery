@@ -1,0 +1,49 @@
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  password  String
+  role      UserRole @default(MEMBER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  listId String?
+  list   GroceryList? @relation("ListMembers", fields: [listId], references: [id])
+
+  addedItems GroceryItem[] @relation("AddedBy")
+
+  @@index([email])
+  @@index([listId])
+}
+
+model GroceryList {
+  id            String   @id @default(uuid())
+  name          String
+  monthlyBudget Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  items   GroceryItem[] @relation("ListItems")
+  users   User[]        @relation("ListMembers")
+}
+
+model GroceryItem {
+  id             String       @id @default(uuid())
+  name           String
+  quantity       Int          @default(1)
+  estimatedPrice Int
+  actualPrice    Int?
+  category       ItemCategory @default(OTHER)
+  status         ItemStatus   @default(PENDING)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  listId    String
+  list      GroceryList @relation("ListItems", fields: [listId], references: [id], onDelete: Cascade)
+
+  addedById String
+  addedBy   User @relation("AddedBy", fields: [addedById], references: [id])
+
+  @@index([listId, status])
+  @@index([addedById])
+}
