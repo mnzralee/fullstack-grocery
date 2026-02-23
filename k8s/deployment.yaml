@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: svc-grocery
+  namespace: grocery-dev
+  labels:
+    app: svc-grocery
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: svc-grocery
+  template:
+    metadata:
+      labels:
+        app: svc-grocery
+    spec:
+      containers:
+        - name: svc-grocery
+          image: localhost:5000/svc-grocery:1.0.0
+          ports:
+            - containerPort: 3060
+          envFrom:
+            - configMapRef:
+                name: svc-grocery-config
+            - secretRef:
+                name: svc-grocery-secrets
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3060
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3060
+            initialDelaySeconds: 5
+            periodSeconds: 10
