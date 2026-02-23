@@ -22,7 +22,8 @@ async function seed() {
   console.log(`  List ID: ${list.id}  ← You'll need this for the frontend URL`);
 
   // Create users with bcrypt-hashed passwords
-  const bcrypt = await import('bcryptjs');
+  const bcryptModule = await import('bcryptjs');
+  const bcrypt = bcryptModule.default ?? bcryptModule;
   const hashedPassword = await bcrypt.hash('grocery123', 12);
 
   const manager = await prisma.user.create({
