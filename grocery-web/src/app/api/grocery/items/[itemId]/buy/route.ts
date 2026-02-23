@@ -1,0 +1,24 @@
+import { NextResponse } from 'next/server';
+import { groceryClient, getErrorMessage } from '@/lib/backendClient';
+
+export async function POST(
+  req: Request,
+  { params }: { params: Promise<{ itemId: string }> },
+) {
+  try {
+    const { itemId } = await params;
+    const body = await req.json();
+    const response = await groceryClient.post(
+      `/items/${itemId}/buy`,
+      body,
+    );
+    return NextResponse.json(response.data);
+  } catch (error) {
+    const message = getErrorMessage(error);
+    const status = (error as any)?.response?.status ?? 500;
+    return NextResponse.json(
+      { success: false, message },
+      { status },
+    );
+  }
+}
