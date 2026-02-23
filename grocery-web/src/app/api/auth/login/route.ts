@@ -23,9 +23,15 @@ export async function POST(req: Request) {
       path: '/',
     });
 
+    // Decode the JWT payload to extract listId (no verification needed — token came from our own backend)
+    const payload = JSON.parse(
+      Buffer.from(token.split('.')[1], 'base64url').toString(),
+    );
+    const listId = payload.listId ?? null;
+
     return NextResponse.json({
       success: true,
-      data: { user },
+      data: { user, listId },
     });
   } catch (error) {
     return NextResponse.json(
