@@ -147,7 +147,7 @@ Every file in this project is explained line-by-line in a 5,400-line teaching gu
 2. **Read the error, trust the error.** Every error has a code, message, and details. Debugging is reading, not guessing.
 3. **Ship it, then perfect it.** Build it working first. Then make it right.
 
-Read the guide: [Building Microservices Full-Stack: From Zero to Production](https://github.com/GX-Coin-Protocol/backend-core/blob/dev/docs/lectures/building-microservices-fullstack.md)
+Read the guide: [Building Microservices Full-Stack: From Zero to Production](https://github.com/mnzralee/fullstack-grocery/blob/main/building-microservices-fullstack.md)
 
 ## License
 
