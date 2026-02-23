@@ -1,0 +1,13 @@
+{
+  "name": "@grocery/core-db",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "prisma": {
+    "schema": "prisma/schema",
+    "seed": "tsx prisma/seed.ts"
+  },
+  "dependencies": {
+    "prisma": "^6.0.0",
+    "@prisma/client": "^6.0.0"
+  }
+}
