@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { groceryClient, getErrorMessage } from '@/lib/backendClient';
+import { groceryClient, getErrorMessage, getAuthHeaders } from '@/lib/backendClient';
 
 export async function POST(
   req: Request,
@@ -8,9 +8,11 @@ export async function POST(
   try {
     const { itemId } = await params;
     const body = await req.json();
+    const headers = await getAuthHeaders();
     const response = await groceryClient.post(
       `/items/${itemId}/approve`,
       body,
+      { headers },
     );
     return NextResponse.json(response.data);
   } catch (error) {
