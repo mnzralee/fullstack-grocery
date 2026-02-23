@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { groceryClient, getErrorMessage } from '@/lib/backendClient';
+import { groceryClient, getErrorMessage, getAuthHeaders } from '@/lib/backendClient';
 
 // GET /api/grocery/items?listId=xxx
 export async function GET(req: Request) {
@@ -14,7 +14,8 @@ export async function GET(req: Request) {
       );
     }
 
-    const response = await groceryClient.get(`/lists/${listId}`);
+    const headers = await getAuthHeaders();
+    const response = await groceryClient.get(`/lists/${listId}`, { headers });
     return NextResponse.json(response.data);
   } catch (error) {
     const message = getErrorMessage(error);
@@ -39,7 +40,8 @@ export async function POST(req: Request) {
       );
     }
 
-    const response = await groceryClient.post(`/lists/${listId}/items`, itemData);
+    const headers = await getAuthHeaders();
+    const response = await groceryClient.post(`/lists/${listId}/items`, itemData, { headers });
     return NextResponse.json(response.data, { status: 201 });
   } catch (error) {
     const message = getErrorMessage(error);
