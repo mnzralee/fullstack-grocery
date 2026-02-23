@@ -1,0 +1,31 @@
+# Note: The 'version' field is deprecated in Docker Compose V2 (the default since 2023).
+# If you're using `docker compose` (without hyphen), you can omit it entirely.
+
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: grocery_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  svc-grocery:
+    build:
+      context: .
+      dockerfile: apps/svc-grocery/Dockerfile
+    ports:
+      - "3060:3060"
+    environment:
+      PORT: 3060
+      NODE_ENV: production
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/grocery_db
+      JWT_SECRET: dev-secret-change-in-production-please
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:
