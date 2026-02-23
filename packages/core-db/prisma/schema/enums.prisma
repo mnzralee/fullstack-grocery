@@ -1,0 +1,23 @@
+enum UserRole {
+  MEMBER
+  MANAGER
+}
+
+enum ItemStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  BOUGHT
+  ARCHIVED
+}
+
+enum ItemCategory {
+  DAIRY
+  PRODUCE
+  MEAT
+  BAKERY
+  BEVERAGES
+  SNACKS
+  HOUSEHOLD
+  OTHER
+}
