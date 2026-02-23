@@ -2,7 +2,7 @@
 
 A household grocery app where one person adds "Whole Milk" to the list, another approves it, and someone buys it on the way home. Budget tracked to the cent. Roles enforced on every request. State machine catches every invalid transition.
 
-Built as a companion project for [Building Microservices Full-Stack: From Zero to Production](https://github.com/GX-Coin-Protocol/backend-core/blob/dev/docs/lectures/building-microservices-fullstack.md) — a 5,400-line guide that explains every line of this codebase.
+Built as a companion project for [Building Microservices Full-Stack: From Zero to Production](https://github.com/mnzralee/fullstack-grocery/blob/main/building-microservices-fullstack.md) — a 5,400-line guide that explains every line of this codebase.
 
 ```
 Browser → Next.js BFF → Express API → PostgreSQL
