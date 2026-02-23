@@ -16,19 +16,19 @@
 - [Chapter 1: The Big Picture](#chapter-1-the-big-picture)
 - [Chapter 2: Setting Up the Workshop](#chapter-2-setting-up-the-workshop)
 - [Chapter 3: The Database Foundation](#chapter-3-the-database-foundation)
-- [Chapter 4: The Domain Layer, Your Business Brain](#chapter-4-the-domain-layer-your-business-brain)
-- [Chapter 5: The Application Layer, Contracts and Rules](#chapter-5-the-application-layer-contracts-and-rules)
-- [Chapter 6: The Infrastructure Layer, Making It Real](#chapter-6-the-infrastructure-layer-making-it-real)
-- [Chapter 7: The Interface Layer, Talking to the World](#chapter-7-the-interface-layer-talking-to-the-world)
-- [Chapter 8: Wiring It All Together, The DI Container](#chapter-8-wiring-it-all-together-the-di-container)
-- [Chapter 9: The Frontend, Pages and Components](#chapter-9-the-frontend-pages-and-components)
-- [Chapter 10: The BFF, Your Frontend's Private API](#chapter-10-the-bff-your-frontends-private-api)
-- [Chapter 11: Connecting It All, TanStack Query and Data Flow](#chapter-11-connecting-it-all-tanstack-query-and-data-flow)
-- [Chapter 12: Authentication, Locking the Doors](#chapter-12-authentication-locking-the-doors)
+- [Chapter 4: The Domain Layer - Your Business Brain](#chapter-4-the-domain-layer---your-business-brain)
+- [Chapter 5: The Application Layer - Contracts and Rules](#chapter-5-the-application-layer---contracts-and-rules)
+- [Chapter 6: The Infrastructure Layer - Making It Real](#chapter-6-the-infrastructure-layer---making-it-real)
+- [Chapter 7: The Interface Layer - Talking to the World](#chapter-7-the-interface-layer---talking-to-the-world)
+- [Chapter 8: Wiring It All Together - The DI Container](#chapter-8-wiring-it-all-together---the-di-container)
+- [Chapter 9: The Frontend - Pages and Components](#chapter-9-the-frontend---pages-and-components)
+- [Chapter 10: The BFF - Your Frontend's Private API](#chapter-10-the-bff---your-frontends-private-api)
+- [Chapter 11: Connecting It All - TanStack Query and Data Flow](#chapter-11-connecting-it-all---tanstack-query-and-data-flow)
+- [Chapter 12: Authentication - Locking the Doors](#chapter-12-authentication---locking-the-doors)
 - [Chapter 13: Dockerizing Your Microservice](#chapter-13-dockerizing-your-microservice)
 - [Chapter 14: Deploying to Kubernetes](#chapter-14-deploying-to-kubernetes)
-- [Chapter 15: Putting It All Together, The Complete Picture](#chapter-15-putting-it-all-together-the-complete-picture)
-- [Chapter 16: What's Next, Growing as an Engineer](#chapter-16-whats-next-growing-as-an-engineer)
+- [Chapter 15: Putting It All Together - The Complete Picture](#chapter-15-putting-it-all-together---the-complete-picture)
+- [Chapter 16: What's Next - Growing as an Engineer](#chapter-16-whats-next---growing-as-an-engineer)
 - [Appendix A: Microservice Scaffold Template](#appendix-a-microservice-scaffold-template)
 - [Appendix B: Glossary](#appendix-b-glossary)
 - [Appendix C: Document History](#appendix-c-document-history)
@@ -39,19 +39,19 @@
 
 I believe in three principles. They thread through every chapter of this guide, and they thread through every line of code I write in production.
 
-**"Every line has a reason."** If you can't explain why a line of code exists, delete it. No copy-paste without understanding. No magic. Every variable name, every function, every import, it's there for a reason. If it's not, it's dead weight.
+**"Every line has a reason."** If you can't explain why a line of code exists, delete it. No copy-paste without understanding. No magic. Every variable name, every function, every import; it's there for a reason. If it's not, it's dead weight.
 
 **"Read the error, trust the error."** The error message is telling you exactly what's wrong. Read it. Read it fully. Don't guess. Don't open a browser and search before you've read every word the error gave you. Nine times out of ten, the answer is right there.
 
 **"Ship it, then perfect it."** A running ugly prototype teaches you more than a perfect plan sitting in a document. Get something working. See it work. Then clean it up layer by layer. The code you're afraid to run is the code you don't understand yet.
 
-These aren't rules from a textbook. They're lessons I learned the hard way, debugging production systems at 2 AM, untangling spaghetti code that "worked fine on my machine," and shipping features under pressure. I engineer a financial blockchain protocol, a system where a single bug in a transfer function can mean real money disappearing. That kind of pressure teaches you to be disciplined, methodical, and deliberate.
+These aren't rules from a textbook. They're lessons I learned the hard way: debugging production systems at 2 AM, untangling spaghetti code that "worked fine on my machine," and shipping features under pressure. I engineer a financial blockchain protocol. A system where a single bug in a transfer function can mean real money disappearing. That kind of pressure teaches you to be disciplined, methodical, and deliberate.
 
 This guide is what I wish someone had handed me when I started. Not a textbook. Not documentation. A conversation. I'm going to sit next to you and we're going to build something together. I'll tell you what I do, why I do it, and what happens when you don't.
 
 ### What We're Building
 
-We're building a **Neighborhood Grocery List**, a full-stack application where families in a household can:
+We're building a **Neighborhood Grocery List**. A full-stack application where families in a household can:
 
 - Add grocery items they need (with name, quantity, estimated price, category)
 - A household manager approves or rejects items before they're purchased
@@ -121,11 +121,11 @@ That's it. Three layers. Let me tell you what each one does and *why* it exists.
 
 ### Layer 1: The Frontend (Next.js)
 
-This is what the user sees. Buttons, forms, lists. It runs in the browser. But here's the thing, the frontend doesn't talk directly to your backend microservice.
+This is what the user sees. Buttons, forms, lists. It runs in the browser. But here's the thing: the frontend doesn't talk directly to your backend microservice.
 
 Why not? Because your backend might be running on port 3060 today, port 3070 tomorrow, and behind a load balancer next week. If the frontend knows your backend's address, you've created a fragile coupling. Change the backend, break the frontend.
 
-Instead, the frontend talks to itself. Specifically, to API routes that live inside the same Next.js application. This is the **BFF pattern**, Backend For Frontend.
+Instead, the frontend talks to itself. Specifically, to API routes that live inside the same Next.js application. This is the **BFF pattern**: Backend For Frontend.
 
 ### Layer 2: The BFF (Next.js API Routes)
 
@@ -135,13 +135,13 @@ Think of the BFF as a receptionist. The visitor (browser) tells the receptionist
 
 ### Layer 3: The Backend Microservice (Express.js)
 
-This is where the business logic lives. It receives HTTP requests, validates them, runs business rules, talks to the database, and returns responses. In a production system, you might have ten of these, one for authentication, one for user profiles, one for financial transactions, one for notifications.
+This is where the business logic lives. It receives HTTP requests, validates them, runs business rules, talks to the database, and returns responses. In a production system, you might have ten of these: one for authentication, one for user profiles, one for financial transactions, one for notifications.
 
 We're building one: `svc-grocery`. One microservice. But the patterns you'll learn apply to all of them.
 
 ### Layer 4: The Database (PostgreSQL + Prisma)
 
-PostgreSQL stores the data. Prisma is our bridge to it, it lets us write TypeScript instead of raw SQL, and it generates type-safe database queries. You'll never write `SELECT * FROM` in this project. Prisma handles that, and it catches your mistakes at compile time, not at runtime.
+PostgreSQL stores the data. Prisma is our bridge to it. It lets us write TypeScript instead of raw SQL, and it generates type-safe database queries. You'll never write `SELECT * FROM` in this project. Prisma handles that, and it catches your mistakes at compile time, not at runtime.
 
 ### The Life of a Request
 
@@ -212,7 +212,7 @@ Nine steps. Each step has one job. Each step knows nothing about the steps above
 
 ### Why Not Just Put Everything in One File?
 
-I want you to see what the alternative looks like. Here's the "naive approach", everything in a single Express route handler:
+I want you to see what the alternative looks like. Here's the "naive approach": everything in a single Express route handler:
 
 ```typescript
 // The naive approach — DON'T do this
@@ -251,7 +251,7 @@ That's 25 lines. It works. Ship it, right?
 Now imagine you have 30 endpoints like this. Each one has auth checks, validation, business logic, and database queries all tangled together. What happens when:
 
 - You need to change how authentication works? You edit 30 files.
-- You need to test the business logic without a database? You can't, the database query is on the same line as the business rule.
+- You need to test the business logic without a database? You can't. The database query is on the same line as the business rule.
 - A new developer joins and asks "where does the item limit check happen?" They search through 30 route handlers.
 - You switch from PostgreSQL to MongoDB? You rewrite every endpoint.
 
@@ -312,7 +312,7 @@ cd grocery-app
 npm init -y
 ```
 
-That gives us a `package.json`. Now let's set up the **monorepo structure**. A monorepo means our backend microservice and our shared packages live in the same repository. Why? Because when you change a shared database package, you want to know immediately if it breaks your service, not three days later when someone tries to deploy.
+That gives us a `package.json`. Now let's set up the **monorepo structure**. A monorepo means our backend microservice and our shared packages live in the same repository. Why? Because when you change a shared database package, you want to know immediately if it breaks your service. Not three days later when someone tries to deploy.
 
 Open `package.json` and replace its contents:
 
@@ -381,7 +381,7 @@ First, let's set up TypeScript for the whole monorepo. Create `tsconfig.json` in
 }
 ```
 
-I want to point out one setting: `"strict": true`. This enables TypeScript's strict mode. It means TypeScript will yell at you for sloppy code, implicit `any` types, unchecked nulls, missing return types. It's annoying at first. It will save your life in production. Every bug strict mode catches at compile time is a bug you don't debug at 2 AM.
+I want to point out one setting: `"strict": true`. This enables TypeScript's strict mode. It means TypeScript will yell at you for sloppy code: implicit `any` types, unchecked nulls, missing return types. It's annoying at first. It will save your life in production. Every bug strict mode catches at compile time is a bug you don't debug at 2 AM.
 
 Now install the backend dependencies:
 
@@ -445,7 +445,7 @@ npm init -y
 npm install prisma @prisma/client
 ```
 
-Now open `packages/core-db/package.json` and set the package name and entry point. This is critical, without the correct name, the workspace alias `@grocery/core-db` won't resolve and your backend build will fail with "Cannot find module":
+Now open `packages/core-db/package.json` and set the package name and entry point. This is critical: without the correct name, the workspace alias `@grocery/core-db` won't resolve and your backend build will fail with "Cannot find module":
 
 ```json
 {
@@ -592,7 +592,7 @@ Before writing any schema code, let me talk about the design decisions. These ma
 0.1 + 0.2  // 0.30000000000000004
 ```
 
-That's not a bug, it's how IEEE 754 floating-point works. In a grocery list, a one-cent rounding error is annoying. In a financial system, it's a lawsuit. Store money as integers (cents), do all math in integers, and only convert to dollars for display. Martin Kleppmann covers this beautifully in *Designing Data-Intensive Applications*, data representation matters more than most engineers think.
+That's not a bug. It's how IEEE 754 floating-point works. In a grocery list, a one-cent rounding error is annoying. In a financial system, it's a lawsuit. Store money as integers (cents), do all math in integers, and only convert to dollars for display. Martin Kleppmann covers this beautifully in *Designing Data-Intensive Applications*. Data representation matters more than most engineers think.
 
 **IDs are UUIDs, not auto-incrementing integers.** Why? Because `item/47` tells an attacker there are at least 46 other items, and they can try `/item/1` through `/item/46`. A UUID like `a1b2c3d4-e5f6-...` reveals nothing. It's also easier to generate IDs without a database round-trip, which matters in distributed systems.
 
@@ -607,7 +607,7 @@ cd packages/core-db
 npx prisma init
 ```
 
-This creates a `prisma/` directory with a `schema.prisma` file. But we're going to do something more organized, we'll use **multi-file schemas**. Instead of one giant file, we split the schema by domain.
+This creates a `prisma/` directory with a `schema.prisma` file. But we're going to do something more organized. We'll use **multi-file schemas**. Instead of one giant file, we split the schema by domain.
 
 Create the directory structure:
 
@@ -628,9 +628,9 @@ datasource db {
 }
 ```
 
-Two things here. The `generator` tells Prisma to generate a TypeScript client. The `datasource` tells it we're using PostgreSQL, and the connection URL comes from an environment variable, never hardcoded. (Remember: **every line has a reason**.)
+Two things here. The `generator` tells Prisma to generate a TypeScript client. The `datasource` tells it we're using PostgreSQL, and the connection URL comes from an environment variable. Never hardcoded. (Remember: **every line has a reason**.)
 
-We're using multi-file schemas, Prisma reads every `.prisma` file in the `schema/` directory automatically. This became stable in Prisma 6.7.0, so if you're on `prisma@^6.7.0` or later, it just works. If you're on an earlier 6.x version, add `previewFeatures = ["prismaSchemaFolder"]` to the generator block. Check your version and move on.
+We're using multi-file schemas. Prisma reads every `.prisma` file in the `schema/` directory automatically. This became stable in Prisma 6.7.0, so if you're on `prisma@^6.7.0` or later, it just works. If you're on an earlier 6.x version, add `previewFeatures = ["prismaSchemaFolder"]` to the generator block. Check your version and move on.
 
 Now let's define the enums. Create `prisma/schema/enums.prisma`:
 
@@ -658,7 +658,7 @@ enum ItemStatus {
 }
 ```
 
-Five statuses. This is a **state machine**, an item moves through these statuses in a specific order:
+Five statuses. This is a **state machine**. An item moves through these statuses in a specific order:
 
 ```
 PENDING ──▶ APPROVED ──▶ BOUGHT ──▶ ARCHIVED
@@ -816,7 +816,7 @@ Now, let's talk about the two ways to apply your schema.
 npx prisma db push
 ```
 
-This is fast. It reads your schema, compares it to the database, and applies the changes directly. No migration files, no history. It's perfect for rapid development when you're still figuring out your schema. But it's dangerous in production, it can drop columns and lose data without warning.
+This is fast. It reads your schema, compares it to the database, and applies the changes directly. No migration files, no history. It's perfect for rapid development when you're still figuring out your schema. But it's dangerous in production. It can drop columns and lose data without warning.
 
 **For production:** `prisma migrate dev`
 
@@ -824,7 +824,7 @@ This is fast. It reads your schema, compares it to the database, and applies the
 npx prisma migrate dev --name init
 ```
 
-This creates a migration file, a SQL script that describes exactly what changed. The file is committed to git, reviewed in PRs, and applied in order on every environment. It's slower, more deliberate, and safe. You can see exactly what SQL will run before it runs.
+This creates a migration file: a SQL script that describes exactly what changed. The file is committed to git, reviewed in PRs, and applied in order on every environment. It's slower, more deliberate, and safe. You can see exactly what SQL will run before it runs.
 
 For this guide, we'll use `db push` while developing and I'll show you migrations when we deploy.
 
@@ -858,7 +858,7 @@ async function seed() {
   await prisma.groceryList.deleteMany();
 ```
 
-We delete everything first. Order matters, items reference lists and users, so delete items first.
+We delete everything first. Order matters: items reference lists and users, so delete items first.
 
 ```typescript
   // Create a household grocery list
@@ -873,7 +873,7 @@ We delete everything first. Order matters, items reference lists and users, so d
   console.log(`  List ID: ${list.id}  ← You'll need this for the frontend URL`);
 ```
 
-One list. $500 monthly budget. Notice how I log the budget divided by 100, that's cents to dollars for human readability. The database stores `50000`, humans see `$500.00`.
+One list. $500 monthly budget. Notice how I log the budget divided by 100. That's cents to dollars for human readability. The database stores `50000`, humans see `$500.00`.
 
 ```typescript
   // Create users with bcrypt-hashed passwords
@@ -906,7 +906,7 @@ One list. $500 monthly budget. Notice how I log the budget divided by 100, that'
 
 Two users. One manager, one member. Both have the password `grocery123`, hashed with bcrypt (12 rounds). The seed script hashes at runtime so the hash is always valid.
 
-Notice the `bcryptModule.default ?? bcryptModule` pattern. When you dynamically `import()` a CommonJS package like `bcryptjs` from an ESM context, the actual functions end up on `.default` instead of at the top level. If you just write `bcryptModule.hash(...)`, it's `undefined`. The `??` fallback handles both cases, ESM wrapping and plain CJS, so the seed works regardless of your module resolution.
+Notice the `bcryptModule.default ?? bcryptModule` pattern. When you dynamically `import()` a CommonJS package like `bcryptjs` from an ESM context, the actual functions end up on `.default` instead of at the top level. If you just write `bcryptModule.hash(...)`, it's `undefined`. The `??` fallback handles both cases (ESM wrapping and plain CJS) so the seed works regardless of your module resolution.
 
 ```typescript
   // Create some grocery items
@@ -948,7 +948,7 @@ Notice the `bcryptModule.default ?? bcryptModule` pattern. When you dynamically 
 }
 ```
 
-Three items in different states. Milk is PENDING (waiting for approval). Bread is APPROVED (ready to buy). Chicken has been BOUGHT (with an actual price less than estimated, it was on sale).
+Three items in different states. Milk is PENDING (waiting for approval). Bread is APPROVED (ready to buy). Chicken has been BOUGHT (with an actual price less than estimated; it was on sale).
 
 Now add the execution and cleanup:
 
@@ -990,7 +990,7 @@ Now open Prisma Studio again (`npx prisma studio`), and you'll see real data. Cl
 
 ---
 
-## Chapter 4: The Domain Layer, Your Business Brain
+## Chapter 4: The Domain Layer - Your Business Brain
 
 > *"The domain layer is the heart of your application. It knows the rules of your business and nothing else. It doesn't know what a database is. It doesn't know what HTTP is. It knows that a PENDING item can be APPROVED or REJECTED, and a budget can't go negative."*
 
@@ -1024,7 +1024,7 @@ Every domain error in our system extends a single base class. Create `apps/svc-g
 export abstract class DomainError extends Error {
 ```
 
-It extends JavaScript's built-in `Error`. The `abstract` keyword means you can't create a `DomainError` directly, you have to create a specific one like `ItemNotFoundError`. This forces specificity.
+It extends JavaScript's built-in `Error`. The `abstract` keyword means you can't create a `DomainError` directly. You have to create a specific one like `ItemNotFoundError`. This forces specificity.
 
 ```typescript
 export abstract class DomainError extends Error {
@@ -1036,7 +1036,7 @@ export abstract class DomainError extends Error {
 
 Four fields:
 - `code`: Machine-readable error code like `"ITEM_NOT_FOUND"`. The frontend can switch on this.
-- `statusCode`: HTTP status code. Yes, I know I said the domain doesn't know about HTTP. This is a pragmatic compromise, the error handler in the interface layer reads this to set the HTTP response code. The domain defines the *severity* (404 = not found, 400 = bad input, 403 = forbidden), and the interface layer translates it to HTTP. It's a small coupling that saves a lot of mapping code.
+- `statusCode`: HTTP status code. Yes, I know I said the domain doesn't know about HTTP. This is a pragmatic compromise. The error handler in the interface layer reads this to set the HTTP response code. The domain defines the *severity* (404 = not found, 400 = bad input, 403 = forbidden), and the interface layer translates it to HTTP. It's a small coupling that saves a lot of mapping code.
 - `timestamp`: When the error occurred. Essential for debugging.
 - `details`: Extra context. Structured, not a string. Machine-readable.
 
@@ -1061,7 +1061,7 @@ Now the constructor:
 }
 ```
 
-`Error.captureStackTrace` cleans up the stack trace so it starts from where the error was thrown, not from inside the DomainError constructor. Small detail, but it makes debugging significantly easier. This is a V8 API, it works in Node.js, Deno, and Chrome because they all run on V8. If you ever port this to Bun (which uses JavaScriptCore instead), guard it with `if (Error.captureStackTrace)` or it'll throw.
+`Error.captureStackTrace` cleans up the stack trace so it starts from where the error was thrown, not from inside the DomainError constructor. Small detail, but it makes debugging significantly easier. This is a V8 API. It works in Node.js, Deno, and Chrome because they all run on V8. If you ever port this to Bun (which uses JavaScriptCore instead), guard it with `if (Error.captureStackTrace)` or it'll throw.
 
 Now let's build the specific errors. Still in the same file:
 
@@ -1160,7 +1160,7 @@ export class Money {
   private constructor(private readonly cents: number) {}
 ```
 
-Private constructor, you can't write `new Money(350)`. You have to use one of the factory methods I'm about to show you. This forces you to be explicit about the unit:
+Private constructor. You can't write `new Money(350)`. You have to use one of the factory methods I'm about to show you. This forces you to be explicit about the unit:
 
 ```typescript
   static fromCents(cents: number): Money {
@@ -1178,7 +1178,7 @@ Private constructor, you can't write `new Money(350)`. You have to use one of th
   }
 ```
 
-`Money.fromCents(350)`, explicit. `Money.fromDollars(3.50)`, also explicit, and it handles the rounding for you. You can never accidentally pass dollars where cents are expected.
+`Money.fromCents(350)`, explicit. `Money.fromDollars(3.50)`: also explicit, and it handles the rounding for you. You can never accidentally pass dollars where cents are expected.
 
 ```typescript
   get inCents(): number {
@@ -1253,7 +1253,7 @@ export function assertTransition(from: string, to: string, operation: string): v
 }
 ```
 
-`canTransition` checks if a transition is valid. `assertTransition` throws a `DomainError` if it's not. Use `assertTransition` in use cases, it fails fast and loud with a clear error message.
+`canTransition` checks if a transition is valid. `assertTransition` throws a `DomainError` if it's not. Use `assertTransition` in use cases. It fails fast and loud with a clear error message.
 
 ### Testing the Domain Layer
 
@@ -1346,13 +1346,13 @@ Run them:
 npx vitest run
 ```
 
-All passing. Notice what we tested, not implementation details, but *behavior*. "Can I create money from cents?" "Does addition work?" "Can money go negative?" These tests will still pass even if we completely rewrite the internal implementation. That's the mark of good tests, a widely-accepted testing principle championed by Kent Beck and others, test the behavior, not the mechanism.
+All passing. Notice what we tested, not implementation details, but *behavior*. "Can I create money from cents?" "Does addition work?" "Can money go negative?" These tests will still pass even if we completely rewrite the internal implementation. That's the mark of good tests. A widely-accepted testing principle championed by Kent Beck and others, test the behavior, not the mechanism.
 
 ---
 
-## Chapter 5: The Application Layer, Contracts and Rules
+## Chapter 5: The Application Layer - Contracts and Rules
 
-> *"The application layer is the conductor of the orchestra. It doesn't play any instrument, it tells each musician when to play, how loud, and in what order. It knows the rules. It delegates the work."*
+> *"The application layer is the conductor of the orchestra. It doesn't play any instrument. It tells each musician when to play, how loud, and in what order. It knows the rules. It delegates the work."*
 
 ### What You'll Have When We're Done
 
@@ -1389,7 +1389,7 @@ Application Layer
 └──────────────────┘     └───────────────────────┘
 ```
 
-The key insight: use cases depend on **interfaces** (ports), not on implementations. The use case says "I need something that can find an item by ID." It doesn't say "I need Prisma." This is what Robert C. Martin calls the **Dependency Inversion Principle**, high-level modules shouldn't depend on low-level modules. Both should depend on abstractions.
+The key insight: use cases depend on **interfaces** (ports), not on implementations. The use case says "I need something that can find an item by ID." It doesn't say "I need Prisma." This is what Robert C. Martin calls the **Dependency Inversion Principle**: high-level modules shouldn't depend on low-level modules. Both should depend on abstractions.
 
 Why does this matter? Because you can test your use cases with a fake repository that stores data in an array. No database needed. Fast tests. And if you ever switch from PostgreSQL to MongoDB, you write a new repository implementation and the use cases don't change at all.
 
@@ -1458,7 +1458,7 @@ export interface IGroceryItemRepository {
 }
 ```
 
-Five methods. That's all the item repository needs to do. `findById`, `findByListId`, `findByListIdAndStatus`, `create`, and `updateStatus`. Notice the return types, always `Promise<ReadModel | null>` for single lookups (it might not exist) and `Promise<ReadModel[]>` for list queries.
+Five methods. That's all the item repository needs to do. `findById`, `findByListId`, `findByListIdAndStatus`, `create`, and `updateStatus`. Notice the return types: always `Promise<ReadModel | null>` for single lookups (it might not exist) and `Promise<ReadModel[]>` for list queries.
 
 ```typescript
 export interface IGroceryListRepository {
@@ -1503,7 +1503,7 @@ export const createItemSchema = z.object({
 });
 ```
 
-Every field has validation rules with human-readable error messages. `.trim()` on the name strips whitespace, "  Milk  " becomes "Milk". `.default('OTHER')` means the category is optional in the request, if you don't send it, it defaults to OTHER.
+Every field has validation rules with human-readable error messages. `.trim()` on the name strips whitespace, "  Milk  " becomes "Milk". `.default('OTHER')` means the category is optional in the request. If you don't send it, it defaults to OTHER.
 
 Now extract the TypeScript type:
 
@@ -1600,7 +1600,7 @@ export interface ErrorResponse {
 }
 ```
 
-Our **response envelope**. Every API response wraps the data in `{ success: true, data: ... }` or `{ success: false, error: ... }`. The frontend never has to guess whether the response is data or an error, it checks `success` first.
+Our **response envelope**. Every API response wraps the data in `{ success: true, data: ... }` or `{ success: false, error: ... }`. The frontend never has to guess whether the response is data or an error. It checks `success` first.
 
 ### Building Use Cases
 
@@ -1689,7 +1689,7 @@ Create the item through the repository port. The status defaults to PENDING in t
 }
 ```
 
-We call `mapItemToResponse()`, the shared mapper we defined at the top. Every use case in this file uses the same mapper. This mapping is explicit, we control exactly what the API returns.
+We call `mapItemToResponse()`, the shared mapper we defined at the top. Every use case in this file uses the same mapper. This mapping is explicit; we control exactly what the API returns.
 
 Now **ApproveItemUseCase**:
 
@@ -1774,7 +1774,7 @@ Only APPROVED items can be bought. The state machine enforces this.
 
 Budget check. We calculate what's already been spent, find the remaining budget, and verify the purchase fits. If it doesn't, `BudgetExceededError` fires with the exact amounts.
 
-You might be tempted to move this budget check into the repository. Don't. `if (actualPrice > remaining)` is a **business rule**. It belongs in the use case. The repository just calculates the sum, that's a data operation. The *decision* about whether the sum is acceptable is business logic.
+You might be tempted to move this budget check into the repository. Don't. `if (actualPrice > remaining)` is a **business rule**. It belongs in the use case. The repository just calculates the sum; that's a data operation. The *decision* about whether the sum is acceptable is business logic.
 
 ```typescript
     // Step 4: Update status and record actual price
@@ -1933,7 +1933,7 @@ Two tests. Happy path and error path. No database, no HTTP server, no network. T
 
 ---
 
-## Chapter 6: The Infrastructure Layer, Making It Real
+## Chapter 6: The Infrastructure Layer - Making It Real
 
 > *"The infrastructure layer is where abstractions meet reality. This is where 'save this item' becomes an actual SQL INSERT statement. It's the only layer that knows about Prisma, PostgreSQL, or any other external system."*
 
@@ -1965,7 +1965,7 @@ import type {
 } from '../../application/ports/repositories';
 ```
 
-We import `db` (our Prisma singleton) and the interfaces we need to implement. The `type` keyword on imports tells TypeScript "I'm importing this for type checking only, don't include it in the compiled JavaScript." It's a small optimization that keeps your bundles clean.
+We import `db` (our Prisma singleton) and the interfaces we need to implement. The `type` keyword on imports tells TypeScript "I'm importing this for type checking only. Don't include it in the compiled JavaScript." It's a small optimization that keeps your bundles clean.
 
 ```typescript
 export class PrismaGroceryItemRepository implements IGroceryItemRepository {
@@ -1993,7 +1993,7 @@ export class PrismaGroceryItemRepository implements IGroceryItemRepository {
   }
 ```
 
-`findUnique` with `include`, Prisma joins the User table to get the name. We select only `name` because that's all we need. Selecting everything (`include: { addedBy: true }`) would include the password hash, and we never want that leaking into our read model.
+`findUnique` with `include`: Prisma joins the User table to get the name. We select only `name` because that's all we need. Selecting everything (`include: { addedBy: true }`) would include the password hash, and we never want that leaking into our read model.
 
 The `return item ? this.toReadModel(item) : null` pattern: if the item exists, map it to our read model. If not, return null. The use case handles the null.
 
@@ -2013,7 +2013,7 @@ The `return item ? this.toReadModel(item) : null` pattern: if the item exists, m
   }
 ```
 
-`findMany` with `orderBy`, returns all items in a list, newest first. The `map` call converts each database row into our read model.
+`findMany` with `orderBy`: returns all items in a list, newest first. The `map` call converts each database row into our read model.
 
 ```typescript
   async findByListIdAndStatus(
@@ -2034,7 +2034,7 @@ The `return item ? this.toReadModel(item) : null` pattern: if the item exists, m
   }
 ```
 
-Same pattern, but filtered by status. The `status as any` cast is a pragmatic shortcut, Prisma expects its generated `ItemStatus` enum type, but our repository interface uses plain strings. The strings match the enum values exactly (`"PENDING"`, `"APPROVED"`, etc.), so this is safe at runtime. In a stricter codebase, you'd create a mapping function like `toItemStatus(status: string): ItemStatus` that validates and converts. For this guide, the cast keeps the code focused on the architecture patterns.
+Same pattern, but filtered by status. The `status as any` cast is a pragmatic shortcut. Prisma expects its generated `ItemStatus` enum type, but our repository interface uses plain strings. The strings match the enum values exactly (`"PENDING"`, `"APPROVED"`, etc.), so this is safe at runtime. In a stricter codebase, you'd create a mapping function like `toItemStatus(status: string): ItemStatus` that validates and converts. For this guide, the cast keeps the code focused on the architecture patterns.
 
 ```typescript
   async create(input: CreateGroceryItemInput): Promise<GroceryItemReadModel> {
@@ -2107,7 +2107,7 @@ Now the most important method, the mapper:
 }
 ```
 
-`toReadModel` maps from the Prisma database row to our application read model. `item.addedBy?.name ?? 'Unknown'` uses optional chaining, if the relation is missing for some reason, default to 'Unknown' instead of crashing.
+`toReadModel` maps from the Prisma database row to our application read model. `item.addedBy?.name ?? 'Unknown'` uses optional chaining; if the relation is missing for some reason, default to 'Unknown' instead of crashing.
 
 This mapper is the **boundary** between the database world and the application world. If a column name changes in the database, only this function changes. If the application needs a different field name, only this function changes. Nothing else in the application knows about database column names.
 
@@ -2169,7 +2169,7 @@ export class PrismaGroceryListRepository implements IGroceryListRepository {
   }
 ```
 
-`aggregate` with `_sum`, Prisma runs a `SUM(actualPrice)` query in PostgreSQL. We filter for BOUGHT items only. If nothing has been bought, the sum is null, so we default to 0.
+`aggregate` with `_sum`: Prisma runs a `SUM(actualPrice)` query in PostgreSQL. We filter for BOUGHT items only. If nothing has been bought, the sum is null, so we default to 0.
 
 This is a data operation, not business logic. "What's the sum of all bought item prices?" is a question, not a decision. The use case takes this number and makes the decision: "Is this within budget?"
 
@@ -2188,13 +2188,13 @@ This is a data operation, not business logic. "What's the sum of all bought item
 
 ### Test It
 
-At this point, you could write integration tests that use a real database. But let's save that for later and move to the interface layer, I want you to see an API response first.
+At this point, you could write integration tests that use a real database. But let's save that for later and move to the interface layer. I want you to see an API response first.
 
 **Principle check:** *Ship it, then perfect it.* We have two repository implementations that satisfy their interface contracts. The use cases can now talk to a real database. Let's make them talk to the real world.
 
 ---
 
-## Chapter 7: The Interface Layer, Talking to the World
+## Chapter 7: The Interface Layer - Talking to the World
 
 > *"The interface layer is a translator. It speaks HTTP on one side and use-case language on the other. It's thin. It's boring. That's the point."*
 
@@ -2245,7 +2245,7 @@ Three imports. Request, Response, NextFunction from Express (types only). ZodSch
 export function validateBody<T>(schema: ZodSchema<T>) {
 ```
 
-This is a **higher-order function**, a function that returns a function. `validateBody(createItemSchema)` returns an Express middleware that validates the request body against that specific schema. Let me show you:
+This is a **higher-order function**: a function that returns a function. `validateBody(createItemSchema)` returns an Express middleware that validates the request body against that specific schema. Let me show you:
 
 ```typescript
 export function validateBody<T>(schema: ZodSchema<T>) {
@@ -2278,7 +2278,7 @@ export function validateBody<T>(schema: ZodSchema<T>) {
 
 Let me trace through this line by line.
 
-`req.body = schema.parse(req.body)`, Zod parses the request body. If it passes, `req.body` is replaced with the parsed, stripped, coerced version. The `.trim()` on our name field? That happens here. Extra fields not in the schema? Stripped. This is important, it means the controller and use case receive only clean, validated data.
+`req.body = schema.parse(req.body)`: Zod parses the request body. If it passes, `req.body` is replaced with the parsed, stripped, coerced version. The `.trim()` on our name field? That happens here. Extra fields not in the schema? Stripped. This is important: it means the controller and use case receive only clean, validated data.
 
 If parsing fails, Zod throws a `ZodError`. We catch it and return a structured 400 response with field-level errors:
 
@@ -2318,7 +2318,7 @@ export function errorHandler(
 ): void {
 ```
 
-Express error handlers have four parameters. The underscore prefix (`_req`, `_next`) tells other developers "I receive this parameter but don't use it." Express identifies error handlers by the four-parameter signature, if you forget one, Express treats it as a regular middleware and your errors won't be caught.
+Express error handlers have four parameters. The underscore prefix (`_req`, `_next`) tells other developers "I receive this parameter but don't use it." Express identifies error handlers by the four-parameter signature. If you forget one, Express treats it as a regular middleware and your errors won't be caught.
 
 ```typescript
   if (err instanceof DomainError) {
@@ -2335,7 +2335,7 @@ Express error handlers have four parameters. The underscore prefix (`_req`, `_ne
   }
 ```
 
-If the error is a `DomainError`, we return a structured response with the status code, code, message, and details from the error. This is why we put `statusCode` on the domain error, the error handler reads it to set the HTTP status.
+If the error is a `DomainError`, we return a structured response with the status code, code, message, and details from the error. This is why we put `statusCode` on the domain error. The error handler reads it to set the HTTP status.
 
 ```typescript
   // Unexpected errors — log everything, return nothing specific
@@ -2351,7 +2351,7 @@ If the error is a `DomainError`, we return a structured response with the status
 }
 ```
 
-Unexpected errors get a generic message. We log the full error for debugging, but the user sees nothing specific. No stack traces, no internal paths, no database error messages. This is a security practice, error details can reveal your infrastructure to attackers.
+Unexpected errors get a generic message. We log the full error for debugging, but the user sees nothing specific. No stack traces, no internal paths, no database error messages. This is a security practice: error details can reveal your infrastructure to attackers.
 
 ### The Controller
 
@@ -2365,7 +2365,7 @@ import type { MarkItemBoughtUseCase } from '../../application/use-cases/grocery'
 import type { GetListWithBudgetUseCase } from '../../application/use-cases/grocery';
 ```
 
-The controller imports use case types. It doesn't import the implementations, it receives them through the constructor. That's dependency injection.
+The controller imports use case types. It doesn't import the implementations. It receives them through the constructor. That's dependency injection.
 
 ```typescript
 export class GroceryController {
@@ -2377,7 +2377,7 @@ export class GroceryController {
   ) {}
 ```
 
-Four use cases, injected through the constructor. The controller doesn't create them, it receives them. We'll see who creates them in the next chapter (the DI container).
+Four use cases, injected through the constructor. The controller doesn't create them. It receives them. We'll see who creates them in the next chapter (the DI container).
 
 ```typescript
   getListWithBudget = async (
@@ -2425,9 +2425,9 @@ The `= async (req, res, next) =>` syntax (arrow function assigned to a property)
   };
 ```
 
-`res.status(201)`, 201 Created, not 200 OK. HTTP status codes matter. 201 means "I created a new resource." The frontend and API consumers use this to differentiate between "here's existing data" (200) and "I just created something new" (201).
+`res.status(201)`: 201 Created, not 200 OK. HTTP status codes matter. 201 means "I created a new resource." The frontend and API consumers use this to differentiate between "here's existing data" (200) and "I just created something new" (201).
 
-`(req as any).user?.id`, we access the user from the request. The auth middleware (Chapter 12) will attach this. For now, we fallback to 'anonymous'. Ugly? Yes. But *Ship it, then perfect it.* We'll clean this up when we add auth.
+`(req as any).user?.id`: we access the user from the request. The auth middleware (Chapter 12) will attach this. For now, we fallback to 'anonymous'. Ugly? Yes. But *Ship it, then perfect it.* We'll clean this up when we add auth.
 
 ```typescript
   approveItem = async (
@@ -2462,7 +2462,7 @@ The `= async (req, res, next) =>` syntax (arrow function assigned to a property)
 }
 ```
 
-Every controller method follows the exact same pattern: extract → execute → respond. If you're writing an `if` statement in a controller that isn't about request parsing, stop, it belongs in a use case.
+Every controller method follows the exact same pattern: extract → execute → respond. If you're writing an `if` statement in a controller that isn't about request parsing, stop. It belongs in a use case.
 
 ### The Routes
 
@@ -2487,7 +2487,7 @@ export function createGroceryRoutes(controller: GroceryController): Router {
   const router = Router();
 ```
 
-Another function that receives its dependencies. The controller is passed in, not imported. We type it as `GroceryController` so TypeScript knows exactly which methods are available. This keeps the routes testable and decoupled from the DI container.
+Another function that receives its dependencies. The controller is passed in. Not imported. We type it as `GroceryController` so TypeScript knows exactly which methods are available. This keeps the routes testable and decoupled from the DI container.
 
 ```typescript
   // GET /api/v1/grocery/lists/:listId
@@ -2498,7 +2498,7 @@ Another function that receives its dependencies. The controller is passed in, no
   );
 ```
 
-Simple GET route. No middleware needed, it's a read operation. The `:listId` parameter is accessible via `req.params.listId` in the controller.
+Simple GET route. No middleware needed. It's a read operation. The `:listId` parameter is accessible via `req.params.listId` in the controller.
 
 ```typescript
   // POST /api/v1/grocery/lists/:listId/items
@@ -2510,7 +2510,7 @@ Simple GET route. No middleware needed, it's a read operation. The `:listId` par
   );
 ```
 
-POST route with validation middleware. The request body is validated against `createItemSchema` before the controller ever sees it. If validation fails, the controller is never called, the validation middleware returns the 400 error directly.
+POST route with validation middleware. The request body is validated against `createItemSchema` before the controller ever sees it. If validation fails, the controller is never called; the validation middleware returns the 400 error directly.
 
 This is the **middleware chain** pattern. Each request passes through a pipeline:
 
@@ -2541,15 +2541,15 @@ Request → validateBody(schema) → controller.createItem → Response
 }
 ```
 
-Four routes. Four endpoints. Each one validates input before processing. When we add auth in Chapter 12, we'll insert the auth middleware before `validateBody`, the chain grows but the pattern stays the same.
+Four routes. Four endpoints. Each one validates input before processing. When we add auth in Chapter 12, we'll insert the auth middleware before `validateBody`; the chain grows but the pattern stays the same.
 
-**Principle check:** *Every line has a reason.* The controller is thin, it calls use cases and formats responses. The middleware handles cross-cutting concerns. The routes wire them together. If your controller is longer than 10 lines per method, something belongs in a use case. If your middleware is doing business logic, it belongs in the domain layer.
+**Principle check:** *Every line has a reason.* The controller is thin. It calls use cases and formats responses. The middleware handles cross-cutting concerns. The routes wire them together. If your controller is longer than 10 lines per method, something belongs in a use case. If your middleware is doing business logic, it belongs in the domain layer.
 
 ---
 
-## Chapter 8: Wiring It All Together, The DI Container
+## Chapter 8: Wiring It All Together - The DI Container
 
-> *"This is the moment everything connects. The DI container is the assembly line of your application, it creates every object, wires every dependency, and makes the whole machine run."*
+> *"This is the moment everything connects. The DI container is the assembly line of your application. It creates every object, wires every dependency, and makes the whole machine run."*
 
 ### What You'll See When We're Done
 
@@ -2572,7 +2572,7 @@ Create `apps/svc-grocery/src/config.ts`:
 import { z } from 'zod';
 ```
 
-We validate environment variables with Zod. If a required variable is missing, the server won't start. This is **fail fast** at the application level, better to crash at startup than to crash on the first request when a missing database URL causes a connection error.
+We validate environment variables with Zod. If a required variable is missing, the server won't start. This is **fail fast** at the application level: better to crash at startup than to crash on the first request when a missing database URL causes a connection error.
 
 ```typescript
 const configSchema = z.object({
@@ -2583,7 +2583,7 @@ const configSchema = z.object({
 });
 ```
 
-`z.coerce.number()` converts the string environment variable to a number. Environment variables are always strings, `PORT=3060` is the string `"3060"`, not the number `3060`. Zod handles the conversion.
+`z.coerce.number()` converts the string environment variable to a number. Environment variables are always strings. `PORT=3060` is the string `"3060"`, not the number `3060`. Zod handles the conversion.
 
 ```typescript
 function loadConfig() {
@@ -2608,7 +2608,7 @@ function loadConfig() {
 export const config = loadConfig();
 ```
 
-`safeParse` doesn't throw, it returns a result object with `success: true/false`. If validation fails, we log each error clearly and exit. The developer sees exactly which variable is wrong:
+`safeParse` doesn't throw. It returns a result object with `success: true/false`. If validation fails, we log each error clearly and exit. The developer sees exactly which variable is wrong:
 
 ```
 Configuration error:
@@ -2663,7 +2663,7 @@ const markBoughtUseCase = new MarkItemBoughtUseCase(itemRepository, listReposito
 const getListUseCase = new GetListWithBudgetUseCase(itemRepository, listRepository);
 ```
 
-Create the use cases. Each one receives only the repositories it needs. `ApproveItemUseCase` only needs the item repository, it doesn't need the list repository because approving doesn't involve budget checks.
+Create the use cases. Each one receives only the repositories it needs. `ApproveItemUseCase` only needs the item repository. It doesn't need the list repository because approving doesn't involve budget checks.
 
 ```typescript
 // 3. Interface — Controllers (wired with use cases)
@@ -2689,9 +2689,9 @@ export const container = {
 };
 ```
 
-The container is a simple object. No framework. No decorators. No reflection. Just objects being passed to other objects. This is **manual dependency injection**, it's explicit, debuggable, and you can trace every dependency by reading this one file.
+The container is a simple object. No framework. No decorators. No reflection. Just objects being passed to other objects. This is **manual dependency injection**. It's explicit, debuggable, and you can trace every dependency by reading this one file.
 
-Some frameworks (NestJS, Spring) do this automatically with decorators and reflection. That's convenient but magical, when something breaks, you're debugging framework internals. Manual DI is more typing but zero magic. In production, when you're debugging at 2 AM, you'll appreciate being able to Ctrl+F the dependency and see exactly where it's created.
+Some frameworks (NestJS, Spring) do this automatically with decorators and reflection. That's convenient but magical. When something breaks, you're debugging framework internals. Manual DI is more typing but zero magic. In production, when you're debugging at 2 AM, you'll appreciate being able to Ctrl+F the dependency and see exactly where it's created.
 
 ### The App Factory
 
@@ -2711,7 +2711,7 @@ export function createApp(): express.Express {
   const app = express();
 ```
 
-A factory function, it creates and returns an Express app. Why a function instead of just exporting the app? Because in tests, you want a fresh app for each test. A factory lets you create as many as you need.
+A factory function. It creates and returns an Express app. Why a function instead of just exporting the app? Because in tests, you want a fresh app for each test. A factory lets you create as many as you need.
 
 ```typescript
   // Parse JSON request bodies
@@ -2914,7 +2914,7 @@ Field-level validation errors. The Zod middleware caught it before the controlle
 
 ---
 
-## Chapter 9: The Frontend, Pages and Components
+## Chapter 9: The Frontend - Pages and Components
 
 > *"The frontend is the face of your application. Nobody cares how beautiful your Clean Architecture is if the UI is confusing. But a beautiful UI backed by spaghetti code is a time bomb. Let's build both right."*
 
@@ -3039,7 +3039,7 @@ export interface GroceryItem {
 }
 ```
 
-This mirrors the backend's response DTO. In a production monorepo, you could share this type between frontend and backend. For now, we define it separately, it's the contract between the two.
+This mirrors the backend's response DTO. In a production monorepo, you could share this type between frontend and backend. For now, we define it separately. It's the contract between the two.
 
 ```typescript
 export interface BudgetSummary {
@@ -3143,7 +3143,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
 `staleTime: 30 * 1000`, after fetching data, consider it "fresh" for 30 seconds. During those 30 seconds, TanStack Query serves cached data instead of making a new network request. This makes navigation feel instant.
 
-`refetchOnWindowFocus: true`, when the user switches back to your tab, refetch data. This ensures they always see the latest items without manually refreshing.
+`refetchOnWindowFocus: true`: when the user switches back to your tab, refetch data. This ensures they always see the latest items without manually refreshing.
 
 `ReactQueryDevtools` adds a floating panel in development that shows all cached queries, their status, and when they last fetched. Invaluable for debugging.
 
@@ -3236,7 +3236,7 @@ export function BudgetBar({ budget }: { budget: BudgetSummary }) {
     : 0;
 ```
 
-Two percentages. `spentPercent` is the solid bar (money already spent). `approvedPercent` is the lighter bar (money committed but not spent yet). `Math.min(..., 100)` caps at 100%, we don't want the bar overflowing if the budget is exceeded.
+Two percentages. `spentPercent` is the solid bar (money already spent). `approvedPercent` is the lighter bar (money committed but not spent yet). `Math.min(..., 100)` caps at 100%; we don't want the bar overflowing if the budget is exceeded.
 
 ```typescript
   const formatPrice = (cents: number) => `$${(cents / 100).toFixed(2)}`;
@@ -3343,9 +3343,9 @@ export function GroceryItemCard({
 }
 ```
 
-The action buttons are conditional. PENDING items show Approve/Reject. APPROVED items show Mark Bought. BOUGHT and REJECTED items show no actions. The UI mirrors the state machine from Chapter 4. This is Clean Architecture at work, the same business rules enforced on the backend are reflected in the frontend's UI.
+The action buttons are conditional. PENDING items show Approve/Reject. APPROVED items show Mark Bought. BOUGHT and REJECTED items show no actions. The UI mirrors the state machine from Chapter 4. This is Clean Architecture at work; the same business rules enforced on the backend are reflected in the frontend's UI.
 
-The callbacks (`onApprove`, `onReject`, `onMarkBought`) are optional. The card doesn't know how approval works, it just calls the callback. The parent component provides the implementation. This is the same principle we used in the backend: dependency inversion. Components accept behavior through props, not through internal imports.
+The callbacks (`onApprove`, `onReject`, `onMarkBought`) are optional. The card doesn't know how approval works. It just calls the callback. The parent component provides the implementation. This is the same principle we used in the backend: dependency inversion. Components accept behavior through props, not through internal imports.
 
 ### The Item List
 
@@ -3444,7 +3444,7 @@ const addItemSchema = z.object({
 type AddItemFormData = z.infer<typeof addItemSchema>;
 ```
 
-Notice `estimatedPrice` here accepts dollars (e.g., 3.50), the user thinks in dollars. We'll convert to cents before sending to the API. This is a **presentation concern**, the frontend adapts the data model for human interaction.
+Notice `estimatedPrice` here accepts dollars (e.g., 3.50); the user thinks in dollars. We'll convert to cents before sending to the API. This is a **presentation concern**: the frontend adapts the data model for human interaction.
 
 ```typescript
 interface AddItemFormProps {
@@ -3550,7 +3550,7 @@ There it is, `data.estimatedPrice * 100` converts dollars to cents. `Math.round`
 
 `{...register('name')}`, React Hook Form registers the input. It handles onChange, onBlur, and ref automatically. No controlled component boilerplate. No `useState` for each field. The form state is managed internally by the library.
 
-Error messages appear below each field. They come directly from the Zod schema, "Item name is required", "At least 1", "Price must be positive". Same messages, same rules, frontend and backend.
+Error messages appear below each field. They come directly from the Zod schema: "Item name is required", "At least 1", "Price must be positive". Same messages, same rules, frontend and backend.
 
 The components are done. But they can't do anything yet, they need data from the backend. That's what the next two chapters are for.
 
@@ -3583,9 +3583,9 @@ The home page redirects to `/login`. When the user logs in (Chapter 12), the JWT
 
 ---
 
-## Chapter 10: The BFF, Your Frontend's Private API
+## Chapter 10: The BFF - Your Frontend's Private API
 
-> *"The BFF is your frontend's personal assistant. It handles the messy work, authentication, backend routing, error translation, so your React components stay clean and focused on the UI."*
+> *"The BFF is your frontend's personal assistant. It handles the messy work (authentication, backend routing, error translation) so your React components stay clean and focused on the UI."*
 
 ### What You'll See When We're Done
 
@@ -3616,7 +3616,7 @@ import type { AxiosInstance } from 'axios';
 import { cookies } from 'next/headers';
 ```
 
-Axios for making HTTP requests from the server side. The `cookies` import from Next.js gives us access to the HTTP-only cookie store, we'll use this to read the auth token. This file runs on the Next.js server, not in the browser.
+Axios for making HTTP requests from the server side. The `cookies` import from Next.js gives us access to the HTTP-only cookie store. We'll use this to read the auth token. This file runs on the Next.js server, not in the browser.
 
 ```typescript
 const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:3060';
@@ -3632,7 +3632,7 @@ function createClient(baseURL: string): AxiosInstance {
 }
 ```
 
-One function, one client. The `baseURL` includes `/api/v1/grocery` so we don't repeat it in every call. `timeout: 10000` means if the backend doesn't respond within 10 seconds, the request fails. Never make requests without a timeout, a hung backend will hang your frontend forever.
+One function, one client. The `baseURL` includes `/api/v1/grocery` so we don't repeat it in every call. `timeout: 10000` means if the backend doesn't respond within 10 seconds, the request fails. Never make requests without a timeout. A hung backend will hang your frontend forever.
 
 ```typescript
 export const groceryClient = createClient(BACKEND_URL);
@@ -3672,7 +3672,7 @@ export async function getAuthHeaders(): Promise<Record<string, string>> {
 }
 ```
 
-This reads the `auth-token` cookie (set during login, which we'll build in Chapter 12) and returns an Authorization header. Every BFF route will call this to forward the user's identity to the backend. If there's no cookie (user not logged in), it returns an empty object, the backend will return 401, and the frontend can redirect to login.
+This reads the `auth-token` cookie (set during login, which we'll build in Chapter 12) and returns an Authorization header. Every BFF route will call this to forward the user's identity to the backend. If there's no cookie (user not logged in), it returns an empty object. The backend will return 401, and the frontend can redirect to login.
 
 ### BFF API Routes
 
@@ -3683,7 +3683,7 @@ import { NextResponse } from 'next/server';
 import { groceryClient, getErrorMessage, getAuthHeaders } from '@/lib/backendClient';
 ```
 
-`NextResponse` is Next.js's response helper for API routes. `getAuthHeaders` reads the JWT from the session cookie and returns an `Authorization: Bearer` header, we built it earlier in `backendClient.ts`. Every BFF route needs it to forward the user's identity to the backend.
+`NextResponse` is Next.js's response helper for API routes. `getAuthHeaders` reads the JWT from the session cookie and returns an `Authorization: Bearer` header. We built it earlier in `backendClient.ts`. Every BFF route needs it to forward the user's identity to the backend.
 
 ```typescript
 // GET /api/grocery/items?listId=xxx
@@ -3822,7 +3822,7 @@ All three BFF routes follow the same structure:
 
 ---
 
-## Chapter 11: Connecting It All, TanStack Query and Data Flow
+## Chapter 11: Connecting It All - TanStack Query and Data Flow
 
 > *"This is the chapter where everything comes alive. The components you built in Chapter 9 meet the BFF from Chapter 10, and the data starts flowing. By the end of this chapter, you'll click 'Add to List' and see the item appear. You'll click 'Approve' and watch the status change. The full stack, working."*
 
@@ -3920,11 +3920,11 @@ export function useGroceryList(listId: string) {
 }
 ```
 
-`useQuery` fetches data and caches it. The `queryKey` identifies the cache entry. The `queryFn` makes the actual request. `enabled: !!listId` means the query won't run if `listId` is empty, no wasted requests.
+`useQuery` fetches data and caches it. The `queryKey` identifies the cache entry. The `queryFn` makes the actual request. `enabled: !!listId` means the query won't run if `listId` is empty. No wasted requests.
 
-The return value includes `data`, `isLoading`, `isError`, `error`, and more. The component doesn't manage any of this state, TanStack Query handles it all.
+The return value includes `data`, `isLoading`, `isError`, `error`, and more. The component doesn't manage any of this state. TanStack Query handles it all.
 
-Now the mutations, actions that change data:
+Now the mutations: actions that change data:
 
 ```typescript
 export function useCreateItem(listId: string) {
@@ -3949,7 +3949,7 @@ export function useCreateItem(listId: string) {
 }
 ```
 
-`useMutation` is for POST/PUT/DELETE, operations that change server state. The `mutationFn` makes the API call. `onSuccess` invalidates the list query, which triggers a refetch. The user sees the new item appear without a manual refresh.
+`useMutation` is for POST/PUT/DELETE: operations that change server state. The `mutationFn` makes the API call. `onSuccess` invalidates the list query, which triggers a refetch. The user sees the new item appear without a manual refresh.
 
 This is the **cache invalidation** pattern. Instead of manually updating the cached data (which is error-prone), we tell TanStack Query: "the data for this list just changed, refetch it." Simple and reliable.
 
@@ -4003,7 +4003,7 @@ import { ItemList } from '@/components/grocery/ItemList';
 import { AddItemForm } from '@/components/forms/AddItemForm';
 ```
 
-`'use client'`, this page uses hooks, so it's a Client Component. `useParams()` extracts `listId` from the URL (`/grocery/abc-123`).
+`'use client'`: this page uses hooks, so it's a Client Component. `useParams()` extracts `listId` from the URL (`/grocery/abc-123`).
 
 ```typescript
 export default function GroceryListPage() {
@@ -4139,7 +4139,7 @@ That's the full stack. Browser → React → BFF → Express → Use Case → Re
 
 ---
 
-## Chapter 12: Authentication, Locking the Doors
+## Chapter 12: Authentication - Locking the Doors
 
 > *"Authentication is the bouncer at the club. It checks your ID, decides if you're allowed in, and stamps your hand so you don't have to show your ID every time you walk to the bar."*
 
@@ -4441,7 +4441,7 @@ curl -s http://localhost:3060/api/v1/grocery/lists/LIST_ID \
 
 ### Frontend: Session Management
 
-For the frontend, we'll use a simple approach, store the JWT in a cookie via the BFF. Create `src/app/api/auth/login/route.ts`:
+For the frontend, we'll use a simple approach: store the JWT in a cookie via the BFF. Create `src/app/api/auth/login/route.ts`:
 
 ```typescript
 import { NextResponse } from 'next/server';
@@ -4635,7 +4635,7 @@ export default function LoginPage() {
 }
 ```
 
-A simple login form. Email and password fields, a submit button, error handling, and test credential hints at the bottom. The form POSTs to our BFF login route (`/api/auth/login`). On success, the response includes `listId`, we redirect to `/grocery/${listId}` to load the user's grocery list. On error, we display the message.
+A simple login form. Email and password fields, a submit button, error handling, and test credential hints at the bottom. The form POSTs to our BFF login route (`/api/auth/login`). On success, the response includes `listId`. We redirect to `/grocery/${listId}` to load the user's grocery list. On error, we display the message.
 
 Remember the home page from Chapter 9? It redirects to `/login`. Now the user lands here, logs in, and gets redirected to their list. The full flow: `/` → `/login` → `/grocery/{listId}`.
 
@@ -4651,13 +4651,13 @@ curl -s -X POST http://localhost:3000/api/auth/login \
 
 The cookie is set. Now all BFF routes include the JWT automatically. The manager can approve items. A member can't. Role-based access is enforced on every request.
 
-**Principle check:** *Read the error, trust the error.* When auth fails, our system tells you exactly what happened: `INVALID_CREDENTIALS` (wrong email or password), `INVALID_TOKEN` (expired, tampered, or missing JWT), `FORBIDDEN` (authenticated but lacking the required role). Each error has a code, message, and details. When you see a 403, the user is logged in but doesn't have the right role. When you see a 401, the token is missing, expired, or the credentials were wrong. Trust these errors, they were designed to guide you.
+**Principle check:** *Read the error, trust the error.* When auth fails, our system tells you exactly what happened: `INVALID_CREDENTIALS` (wrong email or password), `INVALID_TOKEN` (expired, tampered, or missing JWT), `FORBIDDEN` (authenticated but lacking the required role). Each error has a code, message, and details. When you see a 403, the user is logged in but doesn't have the right role. When you see a 401, the token is missing, expired, or the credentials were wrong. Trust these errors. They were designed to guide you.
 
 ---
 
 ## Chapter 13: Dockerizing Your Microservice
 
-> *"Docker is a shipping container for your code. It packages your application, its dependencies, and its configuration into a single unit that runs identically everywhere, on your laptop, on a server, on a Kubernetes cluster."*
+> *"Docker is a shipping container for your code. It packages your application, its dependencies, and its configuration into a single unit that runs identically everywhere: on your laptop, on a server, on a Kubernetes cluster."*
 
 ### What You'll See When We're Done
 
@@ -4687,13 +4687,13 @@ COPY apps/svc-grocery/package.json ./apps/svc-grocery/
 COPY packages/core-db/package.json ./packages/core-db/
 ```
 
-Multi-stage build. The first stage installs dependencies. We copy `package.json` files first because Docker caches layers, if the package files haven't changed, Docker reuses the cached `npm install` layer. This saves minutes on every build.
+Multi-stage build. The first stage installs dependencies. We copy `package.json` files first because Docker caches layers; if the package files haven't changed, Docker reuses the cached `npm install` layer. This saves minutes on every build.
 
 ```dockerfile
 RUN npm ci --workspace=apps/svc-grocery --workspace=packages/core-db
 ```
 
-`npm ci` is like `npm install` but stricter, it uses the lockfile exactly, deletes `node_modules` first, and fails if the lockfile is outdated. Always use `ci` in Docker, never `install`.
+`npm ci` is like `npm install` but stricter. It uses the lockfile exactly, deletes `node_modules` first, and fails if the lockfile is outdated. Always use `ci` in Docker, never `install`.
 
 ```dockerfile
 # ============================================================
@@ -4709,7 +4709,7 @@ COPY --from=deps /app/apps/svc-grocery/node_modules ./apps/svc-grocery/node_modu
 COPY --from=deps /app/packages/core-db/node_modules ./packages/core-db/node_modules
 ```
 
-Copy `node_modules` from the deps stage. We don't reinstall, we reuse.
+Copy `node_modules` from the deps stage. We don't reinstall. We reuse.
 
 ```dockerfile
 # Copy source code
@@ -4747,7 +4747,7 @@ COPY --from=build /app/node_modules ./node_modules
 COPY package.json ./
 ```
 
-The production stage starts fresh. No dev dependencies, no build tools. TypeScript source is gone, only the compiled JavaScript in `dist/`. The `core-db` package comes along because it has the generated Prisma client the app needs at runtime. The result: a smaller image with a smaller attack surface.
+The production stage starts fresh. No dev dependencies, no build tools. TypeScript source is gone. Only the compiled JavaScript in `dist/`. The `core-db` package comes along because it has the generated Prisma client the app needs at runtime. The result: a smaller image with a smaller attack surface.
 
 ```dockerfile
 EXPOSE 3060
@@ -4810,7 +4810,7 @@ volumes:
   pgdata:
 ```
 
-`depends_on` ensures PostgreSQL starts before the grocery service. The `DATABASE_URL` uses `postgres` (the service name) as the hostname, Docker Compose creates an internal network where services can reach each other by name.
+`depends_on` ensures PostgreSQL starts before the grocery service. The `DATABASE_URL` uses `postgres` (the service name) as the hostname. Docker Compose creates an internal network where services can reach each other by name.
 
 ### Build and Run
 
@@ -4854,7 +4854,7 @@ Two copies of your service, running and healthy.
 
 ### Push the Image
 
-First, your Docker image needs to be in a **registry**, a server that stores and distributes Docker images. For local Kubernetes development, you can use a local registry:
+First, your Docker image needs to be in a **registry**: a server that stores and distributes Docker images. For local Kubernetes development, you can use a local registry:
 
 ```bash
 # Start a local registry (one-time setup)
@@ -4902,7 +4902,7 @@ stringData:
   JWT_SECRET: "your-production-jwt-secret-at-least-32-chars"
 ```
 
-Never commit the actual secret values to git. In production, use `kubectl create secret` or a secrets manager like Vault. This example uses `stringData` for readability, Kubernetes base64-encodes it automatically.
+Never commit the actual secret values to git. In production, use `kubectl create secret` or a secrets manager like Vault. This example uses `stringData` for readability. Kubernetes base64-encodes it automatically.
 
 You might be tempted to put the DATABASE_URL in the ConfigMap because "it's just a URL." Don't. It contains the password. ConfigMaps are visible to anyone with read access to the namespace. Secrets have stricter access controls.
 
@@ -4959,15 +4959,15 @@ spec:
 
 Let me walk through the important parts:
 
-`replicas: 2`, Two copies of your service. If one crashes, the other serves traffic while Kubernetes restarts the crashed one.
+`replicas: 2`: Two copies of your service. If one crashes, the other serves traffic while Kubernetes restarts the crashed one.
 
-`envFrom`, Loads environment variables from the ConfigMap and Secret. Your code reads `process.env.DATABASE_URL` as usual, it doesn't know it came from Kubernetes.
+`envFrom`: Loads environment variables from the ConfigMap and Secret. Your code reads `process.env.DATABASE_URL` as usual. It doesn't know it came from Kubernetes.
 
-`resources`, CPU and memory limits. `requests` is the minimum (guaranteed). `limits` is the maximum (if exceeded, Kubernetes throttles CPU or kills the pod for memory). These prevent one misbehaving service from starving others.
+`resources`: CPU and memory limits. `requests` is the minimum (guaranteed). `limits` is the maximum (if exceeded, Kubernetes throttles CPU or kills the pod for memory). These prevent one misbehaving service from starving others.
 
-`livenessProbe`, Kubernetes hits `/health` every 30 seconds. If it fails three times, Kubernetes kills and restarts the pod. This is why we wrote that health endpoint in Chapter 8.
+`livenessProbe`: Kubernetes hits `/health` every 30 seconds. If it fails three times, Kubernetes kills and restarts the pod. This is why we wrote that health endpoint in Chapter 8.
 
-`readinessProbe`, Similar to liveness, but controls traffic routing. If readiness fails, Kubernetes stops sending traffic to that pod. It's still running, but it's "not ready", maybe it's still connecting to the database.
+`readinessProbe`: Similar to liveness, but controls traffic routing. If readiness fails, Kubernetes stops sending traffic to that pod. It's still running, but it's "not ready". Maybe it's still connecting to the database.
 
 **Service**: Routes traffic to your pods. Create `k8s/service.yaml`:
 
@@ -5025,9 +5025,9 @@ Each developer deploys to their namespace. Isolated environments. No stepping on
 
 ---
 
-## Chapter 15: Putting It All Together, The Complete Picture
+## Chapter 15: Putting It All Together - The Complete Picture
 
-> *"Step back. Look at what you've built. Not just the code, the system."*
+> *"Step back. Look at what you've built. Not just the code. The system."*
 
 ### The Updated Life of a Request
 
@@ -5128,23 +5128,23 @@ Not every feature needs a new service. Create a new microservice when:
 - A separate team will own and deploy it independently
 - The feature could reasonably run on a different schedule (always on vs. batch processing)
 
-If the feature is just a new set of CRUD operations on existing data, it probably belongs in an existing service. Don't create microservices for the sake of having microservices, each one adds operational complexity (deployment, monitoring, networking).
+If the feature is just a new set of CRUD operations on existing data, it probably belongs in an existing service. Don't create microservices for the sake of having microservices. Each one adds operational complexity (deployment, monitoring, networking).
 
 ---
 
-## Chapter 16: What's Next, Growing as an Engineer
+## Chapter 16: What's Next - Growing as an Engineer
 
 > *"You've built a complete application from scratch. Every layer, every pattern, every deployment step. But this is just the beginning."*
 
-### The Three Principles, Revisited
+### The Three Principles - Revisited
 
 Throughout this guide, three principles guided every decision:
 
 **"Every line has a reason."** We never wrote code without explaining why. The `DomainError` base class exists because errors need to be structured and debuggable. The `toReadModel()` mapper exists because database shapes and API shapes are different concerns. The Zod schemas exist because validation should be declarative, not imperative. Every line we wrote serves a purpose. If you ever find yourself writing code you can't explain, stop and think.
 
-**"Read the error, trust the error."** When the Zod middleware returned `VALIDATION_ERROR` with field-level details, we didn't need to add logging or breakpoints, the error told us exactly what was wrong. When `InvalidItemStateError` fired, it told us the current status, the required status, and the operation. Build your errors to be self-documenting, and debugging becomes reading instead of guessing.
+**"Read the error, trust the error."** When the Zod middleware returned `VALIDATION_ERROR` with field-level details, we didn't need to add logging or breakpoints, the error told us exactly what was wrong. When `InvalidItemStateError` fired, it told us the current status, the required status, and the operation. Build your errors to be self-documenting. And debugging becomes reading instead of guessing.
 
-**"Ship it, then perfect it."** We built the entire application without authentication first. We used `db push` instead of migrations. We hardcoded the list ID. None of that was "correct", but it got us to a running application fast. Then we layered on auth, Docker, and Kubernetes incrementally. The worst code is code that never runs. The best code is code that runs, then gets better.
+**"Ship it, then perfect it."** We built the entire application without authentication first. We used `db push` instead of migrations. We hardcoded the list ID. None of that was "correct". But it got us to a running application fast. Then we layered on auth, Docker, and Kubernetes incrementally. The worst code is code that never runs. The best code is code that runs, then gets better.
 
 ### Advanced Patterns to Explore
 
@@ -5152,7 +5152,7 @@ Now that you understand the fundamentals, here's where to go next:
 
 **CQRS (Command Query Responsibility Segregation)**: Separate your read and write models. Instead of one repository handling both queries and mutations, have dedicated read models optimized for display and command handlers optimized for writes. This is powerful for systems where read patterns differ significantly from write patterns.
 
-**Event Sourcing**: Instead of storing the current state, store the events that led to the current state. "Item created", "Item approved", "Item bought", replay these events to reconstruct any point in time. Powerful for audit trails and financial systems.
+**Event Sourcing**: Instead of storing the current state, store the events that led to the current state. "Item created", "Item approved", "Item bought". Replay these events to reconstruct any point in time. Powerful for audit trails and financial systems.
 
 **Saga Pattern**: Coordinate complex multi-service transactions. If placing an order involves the grocery service, the payment service, and the notification service, a saga ensures either all succeed or all roll back.
 
@@ -5354,15 +5354,15 @@ app.listen(config.port, () => {
 
 ## Appendix B: Glossary
 
-**BFF (Backend For Frontend)**: A server-side layer that sits between your frontend and your microservices. Think of it as a personal assistant for your React app, it handles authentication, routes requests to the right microservice, and transforms responses into what the frontend needs.
+**BFF (Backend For Frontend)**: A server-side layer that sits between your frontend and your microservices. Think of it as a personal assistant for your React app. It handles authentication, routes requests to the right microservice, and transforms responses into what the frontend needs.
 
-**Clean Architecture**: An architectural pattern where code is organized in concentric layers. The inner layers (domain, application) contain business rules. The outer layers (infrastructure, interface) handle external concerns. Dependencies only point inward, the domain never knows about the database.
+**Clean Architecture**: An architectural pattern where code is organized in concentric layers. The inner layers (domain, application) contain business rules. The outer layers (infrastructure, interface) handle external concerns. Dependencies only point inward. The domain never knows about the database.
 
 **Controller**: The thinnest layer in the interface. It receives an HTTP request, extracts the relevant data, calls a use case, and formats the response. If your controller has business logic, something is wrong.
 
 **Dependency Injection (DI)**: Instead of a class creating its own dependencies (`new DatabaseConnection()`), dependencies are passed in through the constructor. This makes classes testable (pass a mock) and swappable (pass a different implementation).
 
-**DI Container**: The "assembly line" that creates all objects and wires their dependencies. In our system, it's a simple TypeScript file, no framework magic. Read it and you understand the entire application's wiring.
+**DI Container**: The "assembly line" that creates all objects and wires their dependencies. In our system, it's a simple TypeScript file. No framework magic. Read it and you understand the entire application's wiring.
 
 **Domain Error**: A structured error that represents a business rule violation. Unlike generic errors (`throw new Error('...')`), domain errors have a code, status code, timestamp, and structured details. They're machine-readable and human-debuggable.
 
