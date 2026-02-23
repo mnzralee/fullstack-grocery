@@ -39,7 +39,7 @@
 
 I believe in three principles. They thread through every chapter of this guide, and they thread through every line of code I write in production.
 
-**"Every line has a reason."** If you can't explain why a line of code exists, delete it. No copy-paste without understanding. No magic. Every variable name, every function, every import; it's there for a reason. If it's not, it's dead weight.
+**"Every line has a reason."** If you can't explain why a line of code exists, delete it. No copy-paste without understanding. No magic. Every variable name, every function, every import: it's there for a reason. If it's not, it's dead weight.
 
 **"Read the error, trust the error."** The error message is telling you exactly what's wrong. Read it. Read it fully. Don't guess. Don't open a browser and search before you've read every word the error gave you. Nine times out of ten, the answer is right there.
 
@@ -421,7 +421,7 @@ Create the service's `tsconfig.json` at `apps/svc-grocery/tsconfig.json`:
 }
 ```
 
-We re-declare the `paths` alias at the service level so TypeScript resolves `@grocery/core-db` correctly from within this project. The `exclude` keeps test files out of the production `dist/` build, test code should never ship.
+We re-declare the `paths` alias at the service level so TypeScript resolves `@grocery/core-db` correctly from within this project. The `exclude` keeps test files out of the production `dist/` build; test code should never ship.
 
 And add a dev script to `apps/svc-grocery/package.json`:
 
@@ -445,7 +445,7 @@ npm init -y
 npm install prisma @prisma/client
 ```
 
-Now open `packages/core-db/package.json` and set the package name and entry point. This is critical: without the correct name, the workspace alias `@grocery/core-db` won't resolve and your backend build will fail with "Cannot find module":
+Now open `packages/core-db/package.json` and set the package name and entry point. This is critical: without the correct name, the workspace alias `@grocery/core-db` won't resolve, and your backend build will fail with "Cannot find module":
 
 ```json
 {
@@ -641,7 +641,7 @@ enum UserRole {
 }
 ```
 
-Two roles. `MEMBER` can add items to the list. `MANAGER` can approve or reject them. Simple role-based access control. We start with two enums in one file. Let me add the next one:
+Two roles. `MEMBER` can add items to the list. `MANAGER` can approve or reject them. Simple role-based access control. We'll put both enums in one file. Let me add the next one:
 
 ```prisma
 enum UserRole {
@@ -740,7 +740,7 @@ model User {
 }
 ```
 
-`listId` is nullable (`String?`) because a user might not belong to any list yet. The `@relation` annotation tells Prisma how to join the tables. `addedItems` is the reverse relation, all items this user added. The `@@index` lines create database indexes for fast lookups on email and listId.
+`listId` is nullable (`String?`) because a user might not belong to any list yet. The `@relation` annotation tells Prisma how to join the tables. `addedItems` is the reverse relation: all items this user added. The `@@index` lines create database indexes for fast lookups on email and listId.
 
 Now the grocery list model:
 
@@ -984,9 +984,9 @@ Run it:
 npx prisma db seed
 ```
 
-Now open Prisma Studio again (`npx prisma studio`), and you'll see real data. Click on GroceryItem, you'll see milk, bread, and chicken with their statuses and prices.
+Now open Prisma Studio again (`npx prisma studio`), and you'll see real data. Click on GroceryItem. You'll see milk, bread, and chicken with their statuses and prices.
 
-**Principle check:** *Ship it, then perfect it.* We have a running database with seed data. We can see it, touch it, query it. The schema might change as we build features, and that's fine, `db push` makes changes instant. We didn't spend three hours designing the perfect schema. We built one that works and we'll refine it.
+**Principle check:** *Ship it, then perfect it.* We have a running database with seed data. We can see it, touch it, query it. The schema might change as we build features, and that's fine. `db push` applies changes instantly. We didn't spend three hours designing the perfect schema. We built one that works and we'll refine it.
 
 ---
 
@@ -1061,7 +1061,7 @@ Now the constructor:
 }
 ```
 
-`Error.captureStackTrace` cleans up the stack trace so it starts from where the error was thrown, not from inside the DomainError constructor. Small detail, but it makes debugging significantly easier. This is a V8 API. It works in Node.js, Deno, and Chrome because they all run on V8. If you ever port this to Bun (which uses JavaScriptCore instead), guard it with `if (Error.captureStackTrace)` or it'll throw.
+`Error.captureStackTrace` cleans up the stack trace so it starts from where the error was thrown, not from inside the DomainError constructor. Small detail, but it makes debugging significantly easier. This is a V8 API. It works in Node.js, Deno, and Chrome because they all run on V8. If you ever port this to Bun (which uses JavaScriptCore instead), guard it with `if (Error.captureStackTrace)`, or it'll throw.
 
 Now let's build the specific errors. Still in the same file:
 
@@ -1140,11 +1140,11 @@ export class InsufficientPermissionsError extends DomainError {
 
 Role-based access error. When a MEMBER tries to approve an item, this tells them exactly what role they need.
 
-Now you might be tempted to add a generic `ValidationError` that catches everything. Don't. Every error should be specific. `InvalidItemStateError` is not the same as `BudgetExceededError`, they have different codes, different details, and the frontend handles them differently. Generic errors are lazy errors. Lazy errors make debugging painful.
+Now you might be tempted to add a generic `ValidationError` that catches everything. Don't. Every error should be specific. `InvalidItemStateError` is not the same as `BudgetExceededError`; they have different codes, different details, and the frontend handles them differently. Generic errors are lazy errors. Lazy errors make debugging painful.
 
 ### Value Objects: The Money Type
 
-Let me teach you something that Eric Evans describes in *Domain-Driven Design*, the concept of a **value object**. A value object is something that is defined by its value, not its identity. A $5 bill is a $5 bill, you don't care *which* $5 bill it is.
+Let me teach you something that Eric Evans describes in *Domain-Driven Design*: the concept of a **value object**. A value object is something that is defined by its value, not its identity. A $5 bill is a $5 bill, you don't care *which* $5 bill it is.
 
 We already decided to store money in cents. But that decision lives in our heads, not in our code. What happens when a new developer joins and writes:
 
@@ -1178,7 +1178,7 @@ Private constructor. You can't write `new Money(350)`. You have to use one of th
   }
 ```
 
-`Money.fromCents(350)`, explicit. `Money.fromDollars(3.50)`: also explicit, and it handles the rounding for you. You can never accidentally pass dollars where cents are expected.
+`Money.fromCents(350)`: explicit. `Money.fromDollars(3.50)`: also explicit, and it handles the rounding for you. You can never accidentally pass dollars where cents are expected.
 
 ```typescript
   get inCents(): number {
@@ -1346,7 +1346,7 @@ Run them:
 npx vitest run
 ```
 
-All passing. Notice what we tested, not implementation details, but *behavior*. "Can I create money from cents?" "Does addition work?" "Can money go negative?" These tests will still pass even if we completely rewrite the internal implementation. That's the mark of good tests. A widely-accepted testing principle championed by Kent Beck and others, test the behavior, not the mechanism.
+All passing. Notice what we tested: not implementation details, but *behavior*. "Can I create money from cents?" "Does addition work?" "Can money go negative?" These tests will still pass even if we completely rewrite the internal implementation. That's the mark of good tests. A widely accepted testing principle championed by Kent Beck and others: test the behavior, not the mechanism.
 
 ---
 
@@ -1397,7 +1397,7 @@ Why does this matter? Because you can test your use cases with a fake repository
 
 Create `apps/svc-grocery/src/application/ports/repositories/index.ts`:
 
-First, the **read models**. These define what data the application layer works with. They're not database rows, they're the shape of data that use cases need:
+First, the **read models**. These define what data the application layer works with. They're not database rows; they're the shape of data that use cases need:
 
 ```typescript
 export interface GroceryItemReadModel {
@@ -1416,7 +1416,7 @@ export interface GroceryItemReadModel {
 }
 ```
 
-Notice `addedByName`, the database stores `addedById` (a foreign key), but the application layer wants the user's name too. The repository will join the tables and give us what we need. The use case never writes a JOIN. It just says "give me an item" and gets everything it needs.
+Notice `addedByName`. The database stores `addedById` (a foreign key), but the application layer wants the user's name too. The repository will join the tables and give us what we need. The use case never writes a JOIN. It just says "give me an item" and gets everything it needs.
 
 ```typescript
 export interface GroceryListReadModel {
@@ -1564,7 +1564,7 @@ export interface GroceryItemResponseDTO {
 }
 ```
 
-Notice `createdAt: string` not `Date`. JSON doesn't have a Date type, it gets serialized as a string. Being explicit about this prevents confusion.
+Notice `createdAt: string`, not `Date`. JSON doesn't have a Date type; it gets serialized as a string. Being explicit about this prevents confusion.
 
 ```typescript
 export interface BudgetSummaryDTO {
@@ -1732,7 +1732,7 @@ Here's where our domain value object pays off. `assertTransition` checks if PEND
 
 `assertTransition` and `ItemNotFoundError` are already imported at the top of the file in our consolidated imports block.
 
-Now **MarkItemBoughtUseCase**, this one involves money:
+Now **MarkItemBoughtUseCase**. This one involves money:
 
 ```typescript
 export class MarkItemBoughtUseCase {
@@ -2059,7 +2059,7 @@ Same pattern, but filtered by status. The `status as any` cast is a pragmatic sh
   }
 ```
 
-`create` with explicit field mapping. Notice `status: 'PENDING'`, hardcoded. New items are always PENDING. The application layer decides the business rule (all items start as PENDING), and the repository enforces it at the data level.
+`create` with explicit field mapping. Notice `status: 'PENDING'` -- hardcoded. New items are always PENDING. The application layer decides the business rule (all items start as PENDING), and the repository enforces it at the data level.
 
 ```typescript
   async updateStatus(
@@ -2111,7 +2111,7 @@ Now the most important method, the mapper:
 
 This mapper is the **boundary** between the database world and the application world. If a column name changes in the database, only this function changes. If the application needs a different field name, only this function changes. Nothing else in the application knows about database column names.
 
-You might be tempted to put business logic here, like checking if the budget is exceeded before saving. Don't. The repository is a data access layer. It saves and retrieves. Business rules live in use cases. Martin Fowler describes this distinction clearly in *Patterns of Enterprise Application Architecture*, the repository is about persistence, not policy.
+You might be tempted to put business logic here, like checking if the budget is exceeded before saving. Don't. The repository is a data access layer. It saves and retrieves. Business rules live in use cases. Martin Fowler describes this distinction clearly in *Patterns of Enterprise Application Architecture*: the repository is about persistence, not policy.
 
 ### The List Repository Implementation
 
@@ -2734,7 +2734,7 @@ Every service needs a health check endpoint. Kubernetes uses this to know if you
   app.use('/api/v1/grocery', createGroceryRoutes(container.groceryController));
 ```
 
-Mount the grocery routes at `/api/v1/grocery`. The `v1` prefix is API versioning, when you need breaking changes later, you create `v2` without breaking existing clients.
+Mount the grocery routes at `/api/v1/grocery`. The `v1` prefix is API versioning. When you need breaking changes later, you create `v2` without breaking existing clients.
 
 ```typescript
   // Error handler (must be last)
@@ -2763,7 +2763,7 @@ app.listen(config.port, () => {
 });
 ```
 
-That's your entry point. Seven lines. Create the app, start listening. The config validation already happened when we imported `config`, if the environment is wrong, the process already exited.
+That's your entry point. Seven lines. Create the app, start listening. The config validation already happened when we imported `config`. If the environment is wrong, the process already exited.
 
 ### Running It
 
@@ -2809,7 +2809,7 @@ It's alive. Now let's test the real API. You'll need the list ID from your seed 
 curl -s http://localhost:3060/api/v1/grocery/lists/LIST_ID | jq
 ```
 
-You should see the grocery items and budget summary, real data from your database, flowing through every layer we built.
+You should see the grocery items and budget summary -- real data from your database, flowing through every layer we built.
 
 Let's test creating an item:
 
@@ -2882,7 +2882,7 @@ curl -s -X POST http://localhost:3060/api/v1/grocery/items/ITEM_ID/approve \
 
 **That's our domain error in action.** The state machine caught the invalid transition, the use case threw a specific error, the error handler formatted it, and the frontend receives a machine-readable, human-debuggable response.
 
-Look at the fields. `currentStatus: "BOUGHT"`, that's where the item is now. `requiredStatus: "APPROVED"`, that's what you tried to set it to. The state machine in `item-status.ts` only allows BOUGHT to transition to ARCHIVED. You tried to go backward, and it caught you.
+Look at the fields. `currentStatus: "BOUGHT"` -- that's where the item is now. `requiredStatus: "APPROVED"` -- that's the status you tried to transition to. The state machine in `item-status.ts` only allows BOUGHT to transition to ARCHIVED. You tried to go backward, and it caught you.
 
 Try sending invalid data:
 
@@ -3141,7 +3141,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 }
 ```
 
-`staleTime: 30 * 1000`, after fetching data, consider it "fresh" for 30 seconds. During those 30 seconds, TanStack Query serves cached data instead of making a new network request. This makes navigation feel instant.
+`staleTime: 30 * 1000`: after fetching data, consider it "fresh" for 30 seconds. During those 30 seconds, TanStack Query serves cached data instead of making a new network request. This makes navigation feel instant.
 
 `refetchOnWindowFocus: true`: when the user switches back to your tab, refetch data. This ensures they always see the latest items without manually refreshing.
 
@@ -3275,7 +3275,7 @@ Two percentages. `spentPercent` is the solid bar (money already spent). `approve
 }
 ```
 
-`transition-all duration-500`, the bar animates smoothly when values change. Small touches like this make the UI feel polished.
+`transition-all duration-500`: the bar animates smoothly when values change. Small touches like this make the UI feel polished.
 
 ### The Grocery Item Card
 
@@ -3428,7 +3428,7 @@ import { z } from 'zod';
 import { Button } from '@/components/ui/Button';
 ```
 
-React Hook Form with Zod resolver, the same Zod we use on the backend. The validation rules are defined once and used on both sides.
+React Hook Form with Zod resolver -- the same Zod we use on the backend. The validation rules are defined once and used on both sides.
 
 ```typescript
 const addItemSchema = z.object({
@@ -3467,7 +3467,7 @@ export function AddItemForm({ onSubmit, isSubmitting }: AddItemFormProps) {
   });
 ```
 
-`useForm` from React Hook Form. The `zodResolver` connects our Zod schema, when the user submits, Zod validates the data. If validation fails, `errors` is populated and we show the messages.
+`useForm` from React Hook Form. The `zodResolver` connects our Zod schema. When the user submits, Zod validates the data. If validation fails, `errors` is populated and we show the messages.
 
 ```typescript
   const handleFormSubmit = (data: AddItemFormData) => {
@@ -3548,11 +3548,11 @@ There it is, `data.estimatedPrice * 100` converts dollars to cents. `Math.round`
 }
 ```
 
-`{...register('name')}`, React Hook Form registers the input. It handles onChange, onBlur, and ref automatically. No controlled component boilerplate. No `useState` for each field. The form state is managed internally by the library.
+`{...register('name')}`: React Hook Form registers the input. It handles onChange, onBlur, and ref automatically. No controlled component boilerplate. No `useState` for each field. The form state is managed internally by the library.
 
 Error messages appear below each field. They come directly from the Zod schema: "Item name is required", "At least 1", "Price must be positive". Same messages, same rules, frontend and backend.
 
-The components are done. But they can't do anything yet, they need data from the backend. That's what the next two chapters are for.
+The components are done. But they can't do anything yet -- they need data from the backend. That's what the next two chapters are for.
 
 ### The Home Page
 
@@ -3579,7 +3579,7 @@ export default function HomePage() {
 }
 ```
 
-The home page redirects to `/login`. When the user logs in (Chapter 12), the JWT payload includes their `listId`, and the login page uses it to redirect them to `/grocery/{listId}`.
+The home page redirects to `/login`. When the user logs in (Chapter 12), the JWT payload includes their `listId`, and the login page uses it to redirect them to `/grocery/[listId]`.
 
 ---
 
@@ -3778,7 +3778,7 @@ export async function POST(
 }
 ```
 
-Dynamic route parameter: `[itemId]` in the folder name becomes `params.itemId` in the handler. Next.js extracts it from the URL automatically. In Next.js 15+, `params` is a Promise, you must `await` it before accessing the values. And just like the items route, we forward the auth headers.
+Dynamic route parameter: `[itemId]` in the folder name becomes `params.itemId` in the handler. Next.js extracts it from the URL automatically. In Next.js 15+, `params` is a Promise; you must `await` it before accessing the values. And just like the items route, we forward the auth headers.
 
 Create `src/app/api/grocery/items/[itemId]/buy/route.ts`:
 
@@ -3870,7 +3870,7 @@ export async function apiClient<T>(
 }
 ```
 
-This function calls the BFF routes, `/api/grocery/items`, `/api/grocery/items/:id/approve`, etc. It prepends `/api` to every path, which maps to the `src/app/api/` directory in Next.js.
+This function calls the BFF routes: `/api/grocery/items`, `/api/grocery/items/[itemId]/approve`, etc. It prepends `/api` to every path, which maps to the `src/app/api/` directory in Next.js.
 
 The key line: `fetch(`/api${path}`)`. This is a **relative URL**. It goes to the same Next.js server that served the page. The browser never sees `localhost:3060`. It sees `/api/grocery/items` and Next.js handles the rest.
 
@@ -4018,7 +4018,7 @@ export default function GroceryListPage() {
 
 Six lines. The entire state management for this page. `useGroceryList` fetches the data. `useCreateItem`, `useApproveItem`, `useMarkBought` provide mutation functions. No `useState`, no `useEffect`, no manual fetching.
 
-> **Anti-pattern warning:** Don't call `fetch()` or `axios.get()` directly inside components. Always go through custom hooks that wrap TanStack Query. If you fetch directly, you lose caching, deduplication, background refetching, and loading state management. Similarly, avoid prop drilling server data through 3+ levels of components, if a deeply nested component needs data, give it its own `useQuery` hook with the same query key. TanStack Query will deduplicate the request automatically.
+> **Anti-pattern warning:** Don't call `fetch()` or `axios.get()` directly inside components. Always go through custom hooks that wrap TanStack Query. If you fetch directly, you lose caching, deduplication, background refetching, and loading state management. Similarly, avoid prop drilling server data through 3+ levels of components. If a deeply nested component needs data, give it its own `useQuery` hook with the same query key. TanStack Query will deduplicate the request automatically.
 
 ```typescript
   if (isLoading) {
@@ -4492,9 +4492,9 @@ export async function POST(req: Request) {
 
 The JWT is stored in an **HTTP-only cookie**. HTTP-only means JavaScript in the browser can't access it, protecting against XSS attacks. The BFF reads the cookie on every request and adds it as a Bearer token to the backend call.
 
-We decode the JWT payload to extract `listId`, the login page needs it to redirect the user to their grocery list. No cryptographic verification is needed here. We just received this token from our own backend moments ago; we're reading our own data back.
+We decode the JWT payload to extract `listId`; the login page needs it to redirect the user to their grocery list. No cryptographic verification is needed here. We just received this token from our own backend moments ago; we're reading our own data back.
 
-Now the `getAuthHeaders` helper. This is the function every BFF route in Chapter 10 has been calling. Add it to `src/lib/backendClient.ts`:
+Now for the `getAuthHeaders` helper. This is the function every BFF route in Chapter 10 has been calling. Add it to `src/lib/backendClient.ts`:
 
 ```typescript
 import { cookies } from 'next/headers';
@@ -4755,7 +4755,7 @@ EXPOSE 3060
 CMD ["node", "apps/svc-grocery/dist/index.js"]
 ```
 
-Expose the port and start the server. `node` (not `tsx`), we're running compiled JavaScript in production.
+Expose the port and start the server. `node` (not `tsx`) -- we're running compiled JavaScript in production.
 
 ### .dockerignore
 
@@ -5142,9 +5142,9 @@ Throughout this guide, three principles guided every decision:
 
 **"Every line has a reason."** We never wrote code without explaining why. The `DomainError` base class exists because errors need to be structured and debuggable. The `toReadModel()` mapper exists because database shapes and API shapes are different concerns. The Zod schemas exist because validation should be declarative, not imperative. Every line we wrote serves a purpose. If you ever find yourself writing code you can't explain, stop and think.
 
-**"Read the error, trust the error."** When the Zod middleware returned `VALIDATION_ERROR` with field-level details, we didn't need to add logging or breakpoints, the error told us exactly what was wrong. When `InvalidItemStateError` fired, it told us the current status, the required status, and the operation. Build your errors to be self-documenting. And debugging becomes reading instead of guessing.
+**"Read the error, trust the error."** When the Zod middleware returned `VALIDATION_ERROR` with field-level details, we didn't need to add logging or breakpoints -- the error told us exactly what was wrong. When `InvalidItemStateError` fired, it told us the current status, the required status, and the operation. Build your errors to be self-documenting, and debugging becomes reading instead of guessing.
 
-**"Ship it, then perfect it."** We built the entire application without authentication first. We used `db push` instead of migrations. We hardcoded the list ID. None of that was "correct". But it got us to a running application fast. Then we layered on auth, Docker, and Kubernetes incrementally. The worst code is code that never runs. The best code is code that runs, then gets better.
+**"Ship it, then perfect it."** We built the entire application without authentication first. We used `db push` instead of migrations. We hardcoded the list ID. None of that was "correct." But it got us to a running application fast. Then we layered on auth, Docker, and Kubernetes incrementally. The worst code is code that never runs. The best code is code that runs, then gets better.
 
 ### Advanced Patterns to Explore
 
@@ -5372,7 +5372,7 @@ app.listen(config.port, () => {
 
 **Monorepo**: A single repository containing multiple related projects. Our backend service and shared packages live in the same repo, so a change to the database package is immediately visible to all services.
 
-**Port**: An interface that defines what an outer layer must provide. "I need something that can save items", that's a port. The infrastructure layer provides the concrete implementation (a Prisma repository). The use case depends on the port (interface), never on the implementation.
+**Port**: An interface that defines what an outer layer must provide. "I need something that can save items" -- that's a port. The infrastructure layer provides the concrete implementation (a Prisma repository). The use case depends on the port (interface), never on the implementation.
 
 **Prisma**: An ORM (Object-Relational Mapper) for TypeScript. It generates type-safe database queries from a schema file. Instead of writing SQL, you write TypeScript. Prisma translates it to SQL and gives you results with full type safety.
 
@@ -5388,9 +5388,9 @@ app.listen(config.port, () => {
 
 **Cache Invalidation**: The process of marking cached data as stale so it gets refetched. In TanStack Query, invalidating a query key triggers a background refetch, ensuring the UI shows fresh data after a mutation.
 
-**Higher-Order Function**: A function that takes another function as an argument or returns a function. Our `createGroceryRoutes(controller)` is one, it takes a controller and returns a configured Router. Middleware factories like `validateBody(schema)` are another example.
+**Higher-Order Function**: A function that takes another function as an argument or returns a function. Our `createGroceryRoutes(controller)` is one -- it takes a controller and returns a configured Router. Middleware factories like `validateBody(schema)` are another example.
 
-**HTTP-only Cookie**: A cookie that JavaScript cannot read via `document.cookie`. It's only sent automatically with HTTP requests. We use it for JWT storage because it protects against XSS attacks, even if an attacker injects JavaScript, they can't steal the token.
+**HTTP-only Cookie**: A cookie that JavaScript cannot read via `document.cookie`. It's only sent automatically with HTTP requests. We use it for JWT storage because it protects against XSS attacks -- even if an attacker injects JavaScript, they can't steal the token.
 
 **Liveness Probe**: A Kubernetes health check that determines if a container is alive. If it fails, Kubernetes restarts the container. Our `/health` endpoint serves this purpose.
 
@@ -5400,7 +5400,7 @@ app.listen(config.port, () => {
 
 **Response Envelope**: A wrapper structure around API responses: `{ success: true, data: ... }` or `{ success: false, error: ... }`. The frontend checks `success` first, so it never guesses whether the response is data or an error.
 
-**Singleton Pattern**: A design pattern that ensures only one instance of a class exists. Our Prisma client uses this, in development, we store the client in `globalThis` so hot-reloads don't create multiple database connection pools.
+**Singleton Pattern**: A design pattern that ensures only one instance of a class exists. Our Prisma client uses this: in development, we store the client in `globalThis` so hot-reloads don't create multiple database connection pools.
 
 **State Machine**: A model where an entity can be in one of a finite number of states, with defined transitions between them. Our item status (PENDING → APPROVED → BOUGHT → ARCHIVED) is a state machine. Invalid transitions are rejected.
 
@@ -5412,7 +5412,7 @@ app.listen(config.port, () => {
 
 | Version | Date | Description |
 |---------|------|-------------|
-| v1.0.0 | February 2026 | Initial release, Complete guide covering backend, frontend, auth, Docker, and Kubernetes |
+| v1.0.0 | February 2026 | Initial release. Complete guide covering backend, frontend, auth, Docker, and Kubernetes |
 
 ---
 
