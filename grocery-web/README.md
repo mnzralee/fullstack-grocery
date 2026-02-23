@@ -1,6 +1,6 @@
 # grocery-web
 
-The frontend. Next.js 15, React 19, TanStack Query, Tailwind CSS. Talks to the backend through a BFF (Backend-for-Frontend) layer — the browser never sees the Express API directly.
+The frontend. Next.js 15, React 19, TanStack Query, Tailwind CSS. Talks to the backend through a BFF (Backend-for-Frontend) layer, the browser never sees the Express API directly.
 
 ## How It Works
 
@@ -19,7 +19,7 @@ Browser                    Next.js Server              Express Backend
    │  React re-renders         │                            │
 ```
 
-The BFF reads the JWT from an HTTP-only cookie (JavaScript can't touch it — XSS protection), forwards it as a Bearer token to the backend, and returns the response. The browser never knows the backend's address, port, or API structure.
+The BFF reads the JWT from an HTTP-only cookie (JavaScript can't touch it, XSS protection), forwards it as a Bearer token to the backend, and returns the response. The browser never knows the backend's address, port, or API structure.
 
 ## Structure
 

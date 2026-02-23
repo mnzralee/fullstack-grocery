@@ -2,7 +2,7 @@
 
 A household grocery app where one person adds "Whole Milk" to the list, another approves it, and someone buys it on the way home. Budget tracked to the cent. Roles enforced on every request. State machine catches every invalid transition.
 
-Built as a companion project for [Building Microservices Full-Stack: From Zero to Production](https://github.com/mnzralee/fullstack-grocery/blob/main/building-microservices-fullstack.md) — a 5,400-line guide that explains every line of this codebase.
+Built as a companion project for [Building Microservices Full-Stack: From Zero to Production](https://github.com/mnzralee/fullstack-grocery/blob/main/building-microservices-fullstack.md), a 5,400-line guide that explains every line of this codebase.
 
 ```
 Browser → Next.js BFF → Express API → PostgreSQL
@@ -73,7 +73,7 @@ Open [http://localhost:3000](http://localhost:3000). You'll hit the login page.
 
 ## Architecture
 
-This isn't a TODO app with a database bolted on. It's **Clean Architecture** — four layers, each with one job:
+This isn't a TODO app with a database bolted on. It's **Clean Architecture**, four layers, each with one job:
 
 ```
 ┌─────────────────────────────────────────────┐
@@ -93,8 +93,8 @@ Dependencies point **inward**. The domain layer doesn't know Express exists. The
 
 | Method | Endpoint | Auth | What it does |
 |--------|----------|------|-------------|
-| `GET` | `/health` | — | Health check |
-| `POST` | `/api/v1/auth/login` | — | Returns JWT token |
+| `GET` | `/health` | -- | Health check |
+| `POST` | `/api/v1/auth/login` | -- | Returns JWT token |
 | `GET` | `/api/v1/grocery/lists/:listId` | Bearer | Items + budget summary |
 | `POST` | `/api/v1/grocery/lists/:listId/items` | Member+ | Add a grocery item |
 | `POST` | `/api/v1/grocery/items/:itemId/approve` | Manager | Approve or reject |
@@ -121,12 +121,12 @@ Dependencies point **inward**. The domain layer doesn't know Express exists. The
 
 ## Tests
 
-**10 unit tests** — domain errors, Money value object, CreateItem use case:
+**10 unit tests**, domain errors, Money value object, CreateItem use case:
 ```bash
 cd apps/svc-grocery && npx vitest run
 ```
 
-**13 Playwright E2E tests** — login, view list, add item, approve, buy, full household workflow:
+**13 Playwright E2E tests**, login, view list, add item, approve, buy, full household workflow:
 ```bash
 cd grocery-web && npx playwright test
 ```
@@ -155,4 +155,4 @@ MIT
 
 ## Author
 
-Manazir Ali — Full-Stack Software Engineer
+Manazir Ali, Full-Stack Software Engineer

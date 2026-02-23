@@ -37,14 +37,14 @@ Readable by anyone with namespace access. Never put secrets here.
 JWT_SECRET: change-me-in-production
 ```
 
-Uses `stringData` for readability — Kubernetes base64-encodes it automatically. In production, use a secrets manager (Vault, AWS Secrets Manager, etc.) or sealed secrets. Never commit real secret values to git.
+Uses `stringData` for readability, Kubernetes base64-encodes it automatically. In production, use a secrets manager (Vault, AWS Secrets Manager, etc.) or sealed secrets. Never commit real secret values to git.
 
 ### deployment.yaml
 
-- **2 replicas** — one pod can go down and traffic still flows
-- **Resource limits** — 256Mi memory, 250m CPU (prevents a runaway pod from starving the node)
-- **Liveness probe** — `GET /health` every 30s. Fails 3 times? Pod gets killed and restarted
-- **Readiness probe** — `GET /health` every 10s. Fails? Pod is removed from the Service until it recovers
+- **2 replicas**: one pod can go down and traffic still flows
+- **Resource limits**: 256Mi memory, 250m CPU (prevents a runaway pod from starving the node)
+- **Liveness probe**: `GET /health` every 30s. Fails 3 times? Pod gets killed and restarted
+- **Readiness probe**: `GET /health` every 10s. Fails? Pod is removed from the Service until it recovers
 - **Environment** from ConfigMap + Secret via `envFrom`
 
 ### service.yaml

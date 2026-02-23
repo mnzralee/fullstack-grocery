@@ -40,7 +40,7 @@ npm run test       # vitest (10 tests)
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `DATABASE_URL` | Yes | — | PostgreSQL connection string |
+| `DATABASE_URL` | Yes | -- | PostgreSQL connection string |
 | `JWT_SECRET` | No | `dev-secret-change-in-production-please` | JWT signing key (min 16 chars) |
 | `PORT` | No | `3060` | Server port |
 | `NODE_ENV` | No | `development` | Environment |
@@ -51,8 +51,8 @@ Config is validated at startup with Zod. Missing `DATABASE_URL`? The service pri
 
 | Method | Path | Auth | Description |
 |--------|------|------|-------------|
-| `GET` | `/health` | — | Returns `{ status: "ok" }` |
-| `POST` | `/api/v1/auth/login` | — | Email + password → JWT |
+| `GET` | `/health` | -- | Returns `{ status: "ok" }` |
+| `POST` | `/api/v1/auth/login` | -- | Email + password → JWT |
 | `GET` | `/api/v1/grocery/lists/:listId` | Bearer | Items grouped by status + budget |
 | `POST` | `/api/v1/grocery/lists/:listId/items` | Member+ | Create item (PENDING) |
 | `POST` | `/api/v1/grocery/items/:itemId/approve` | Manager | APPROVE or REJECT |
@@ -66,7 +66,7 @@ PENDING ──→ APPROVED ──→ BOUGHT ──→ ARCHIVED
    └──→ REJECTED (terminal)
 ```
 
-Invalid transitions throw `InvalidItemStateError` with the current status, attempted target, and operation. The state machine is in `domain/value-objects/item-status.ts` — 21 lines, no magic.
+Invalid transitions throw `InvalidItemStateError` with the current status, attempted target, and operation. The state machine is in `domain/value-objects/item-status.ts`, 21 lines, no magic.
 
 ## Tests
 
@@ -75,9 +75,9 @@ npx vitest run
 ```
 
 10 tests across domain and application layers:
-- `errors.test.ts` — DomainError hierarchy, error codes, HTTP status mapping
-- `money.test.ts` — Cents arithmetic, negative prevention, display formatting
-- `create-item.test.ts` — Use case with mocked repositories, validation, edge cases
+- `errors.test.ts`: DomainError hierarchy, error codes, HTTP status mapping
+- `money.test.ts`: Cents arithmetic, negative prevention, display formatting
+- `create-item.test.ts`: Use case with mocked repositories, validation, edge cases
 
 ## Docker
 
